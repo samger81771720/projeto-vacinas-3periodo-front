@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-rodape', //Esse atributo que define o nome que será usado na tag para referenciar o componente
                           //<app-rodape></app-rodape>
-  standalone: true, // explicação no final
+//standalone: true, // explicação no final
   templateUrl: './rodape.component.html',
   styleUrls: ['./rodape.component.scss']
 })

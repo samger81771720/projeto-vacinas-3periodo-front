@@ -4,8 +4,8 @@ import { PessoaRoutingModule } from './pessoa-routing.module';
 import { PessoaListagemComponent } from './pessoa-listagem/pessoa-listagem.component';
 import { FormsModule } from '@angular/forms';
 import { PessoaDetalheComponent } from './pessoa-detalhe/pessoa-detalhe.component';
-import { HttpClientModule } from '@angular/common/http';
 import { NgxViacepModule } from "@brunoc/ngx-viacep";
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -15,9 +15,9 @@ import { NgxViacepModule } from "@brunoc/ngx-viacep";
   imports: [
     CommonModule,
     PessoaRoutingModule,
-    HttpClientModule,
     FormsModule,
-    NgxViacepModule
+    NgxViacepModule,
+    SharedModule
   ]
 })
 export class PessoaModule { }
