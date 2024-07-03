@@ -8,10 +8,10 @@
         <div class="card-body">
           <form #ngForm="ngForm">
             <div class="mb-1">
-              <label class="form-label" for="email">E-mail</label>
+              <label class="form-label" for="login">Login</label>
               <input [ngClass]="(!dto.login && ngForm.dirty) ? 'form-control is-invalid' : 'form-control'"
-                     [(ngModel)]="dto.login" type="text" class="form-control border-dark" name="email" required/>
-              <div class="invalid-feedback"> Informe o email.</div>
+                     [(ngModel)]="dto.login" type="text" class="form-control border-dark" name="login" required/>
+              <div class="invalid-feedback"> Informe o Login</div>
             </div>
             <div class="mb-3">
               <label class="form-label" for="senha">Senha</label>

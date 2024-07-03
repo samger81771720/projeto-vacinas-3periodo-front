@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
 
-  { path: '', redirectTo: 'pessoa', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
 
   { path: 'pessoa' ,loadChildren:() => import('./pessoa/pessoa.module').then(m => m.PessoaModule) },
 

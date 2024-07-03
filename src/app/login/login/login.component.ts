@@ -5,8 +5,6 @@ import { Pessoa } from '../../shared/model/pessoa';
 import Swal from 'sweetalert2';
 import { UsuarioDTO } from '../../shared/model/dto/usuario.DTO';
 
-
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,8 +14,8 @@ export class LoginComponent {
 
   public dto: UsuarioDTO = new UsuarioDTO();
 
-  constructor(private loginService: LoginService,
-              private router: Router) {
+  constructor(private loginService: LoginService, private router: Router) {
+
   }
 
   public realizarLogin() {
@@ -25,7 +23,7 @@ export class LoginComponent {
       (usuarioAutenticado: Pessoa) => {
         Swal.fire('Sucesso', 'Usuário autenticado com sucesso', 'success');
         localStorage.setItem('usuarioAutenticado', JSON.stringify(usuarioAutenticado));
-        this.router.navigate(['/home']);
+        this.router.navigate(['/login/home']);
       },
       (erro) => {
         Swal.fire('Erro', erro.error.mensagem, 'error');
