@@ -5,14 +5,14 @@ import { PessoaDetalheComponent } from './pessoa-detalhe/pessoa-detalhe.componen
 
 const routes: Routes = [
 
-  //{ path: "", component: PessoaListagemComponent },
-  { path: "listagem", component: PessoaListagemComponent },
-  { path: "cadastro", component: PessoaDetalheComponent },
-  { path: "cadastro/:idPessoa", component: PessoaDetalheComponent},
+ // { path: '', component: PessoaListagemComponent },
+ { path: 'listagem', component: PessoaListagemComponent },
+ { path: 'cadastro', component: PessoaDetalheComponent },
+ { path: 'cadastro/:idPessoa', component: PessoaDetalheComponent},
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+ imports: [RouterModule.forChild(routes)],
+ exports: [RouterModule]
 })
 export class PessoaRoutingModule { }

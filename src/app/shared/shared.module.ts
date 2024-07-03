@@ -11,3 +11,4 @@ import { HomeComponent } from '../home/home/home.component';
   exports: [RodapeComponent, HomeComponent]
 })
 export class SharedModule { }
+
