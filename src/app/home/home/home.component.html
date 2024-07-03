@@ -11,7 +11,7 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item func" href="pessoa/cadastro">CADASTRO DE USUÁRIO</a></li>
-                  <li><a class="dropdown-item func" href="pessoa/listagem">LISTAGEM DE USUÁRIOS</a></li>
+                  <li><a class="dropdown-item func" *ngIf="ehAdministrador" href="pessoa/listagem">LISTAGEM DE USUÁRIOS</a></li>
                 </ul>
             </li>
             <li class="nav-item dropdown">
@@ -29,12 +29,12 @@
                   Central de Aplicações
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item func" href="/aplicacao/cadastro">CADASTRAR APLICAÇÃO</a></li>
+                <li><a class="dropdown-item func" *ngIf="ehAdministrador" href="/aplicacao/cadastro">CADASTRAR APLICAÇÃO</a></li>
                 <li><a class="dropdown-item func" href="/aplicacao/listagem">CARTEIRINHA DE VACINAÇÃO VIRTUAL</a></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle titulo" href="#" role="button"
+              <a class="nav-link dropdown-toggle titulo" *ngIf="ehAdministrador" href="#" role="button"
                   data-bs-toggle="dropdown" aria-expanded="false">
                   Estoques de Vacinas
               </a>
@@ -44,7 +44,7 @@
               </ul>
             </li>
             <li class="nav-item">
-                <a class="nav-link titulo about" href="#">Sobre</a>
+                <a class="nav-link titulo about icone-sair" (click)="logout()">Sair</a>
             </li>
           </ul>
       </div>

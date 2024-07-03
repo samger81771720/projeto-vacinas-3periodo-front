@@ -35,7 +35,7 @@ export class LoginComponent {
   }
 
   public cadastro() {
-    this.router.navigate(['/login/pessoa/cadastro']);
+    this.router.navigate(['/login/pessoa']);
   }
 
 }

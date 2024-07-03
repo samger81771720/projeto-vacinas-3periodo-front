@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
+
 export class HomeComponent implements OnInit{
 
   public usuarioAutenticado: Pessoa;
@@ -23,16 +24,15 @@ export class HomeComponent implements OnInit{
     if(usuarioNoStorage){
       this.usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
       this.ehAdministrador = this.usuarioAutenticado?.tipo == 2; // explicação abaixo do uso abaixo operador de encadeamento opcional.
-
-      if(this.ehAdministrador){
-        // FALTA DIRECIONAR A ROTA CORRETA ABAIXO
-        this.router.navigate(['/home/cartas']);
-
-      }
     } else {
       this.router.navigate(['/login']);
     }
 
+  }
+
+  logout(){
+    localStorage.removeItem('usuarioAutenticado');
+    this.router.navigate(['/login']);
   }
 
 
