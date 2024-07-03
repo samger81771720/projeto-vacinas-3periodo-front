@@ -14,7 +14,10 @@ export class LoginComponent {
 
   public dto: UsuarioDTO = new UsuarioDTO();
 
-  constructor(private loginService: LoginService, private router: Router) {
+  constructor(
+    private loginService: LoginService,
+    private router: Router
+  ) {
 
   }
 
@@ -32,8 +35,7 @@ export class LoginComponent {
   }
 
   public cadastro() {
-    //TODO desenvolver
-    this.router.navigate(['login/cadastro']);
+    this.router.navigate(['/login/pessoa/cadastro']);
   }
 
 }
