@@ -6,19 +6,15 @@ import { HomeComponent } from '../home/home/home.component';
 const routes: Routes = [
 
   {
-    path: '',
-    component: LoginComponent,
+    path: '', component: LoginComponent,
+
     children: [
-      {
-        path: 'pessoa',
-        loadChildren: () => import('../pessoa/pessoa.module').then(m => m.PessoaModule)
-      },
-      {
-        path: 'home',
-        component: HomeComponent
-      }
+      { path: 'home', component: HomeComponent },
+      { path: 'pessoa', loadChildren: () => import('../pessoa/pessoa.module').then(m => m.PessoaModule) }
     ]
-  },
+
+  }
+
   /*{ path: '', component: LoginComponent },
 
   { path: 'home', component: HomeComponent },*/
