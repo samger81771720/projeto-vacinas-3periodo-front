@@ -25,8 +25,13 @@ export class LoginComponent {
     this.loginService.autenticar(this.dto).subscribe(
       (usuarioAutenticado: Pessoa) => {
         Swal.fire('Sucesso', 'Usuário autenticado com sucesso', 'success');
-        localStorage.setItem('usuarioAutenticado', JSON.stringify(usuarioAutenticado));
-        this.router.navigate(['/pessoa']);
+        // comentário abaixo
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('usuarioAutenticado', JSON.stringify(usuarioAutenticado));
+        }
+
+        this.router.navigate(['login/home']);
+
       },
       (erro) => {
         Swal.fire('Erro', erro.mensagem, 'error');
@@ -39,3 +44,19 @@ export class LoginComponent {
   }
 
 }
+
+/*
+Apesar da mensagem de erro, o objeto estava
+sendo salvo no localStorage o que sugere que
+a operação estava ocorrendo apenas no navegador,
+mas a mensagem de erro era gerada durante a
+renderização no servidor. A verificação
+if (typeof localStorage !== 'undefined')
+evita que o código que acessa localStorage
+seja executado no servidor, onde ele não
+está definido.
+
+Assim, o localStorage continua funcionando
+no navegador sem causar problemas durante a
+renderização no servidor.
+*/

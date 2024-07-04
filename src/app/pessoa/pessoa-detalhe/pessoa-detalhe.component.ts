@@ -34,6 +34,7 @@ export class PessoaDetalheComponent implements OnInit{
   }
 
   ngOnInit(): void {
+
     this.route.params.subscribe(
       (params) =>{
         this.idPessoa = params['idPessoa'];
@@ -42,6 +43,7 @@ export class PessoaDetalheComponent implements OnInit{
         }
       }
     )
+
   }
 
   public consultarPessoaPorId(): void{
