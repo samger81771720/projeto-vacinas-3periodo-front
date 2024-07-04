@@ -5,6 +5,7 @@ import { EstoqueRoutingModule } from './estoque-routing.module';
 import { EstoqueDetalheComponent } from './estoque-detalhe/estoque-detalhe.component';
 import { FormsModule } from '@angular/forms';
 import { EstoqueListagemComponent } from './estoque-listagem/estoque-listagem.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { EstoqueListagemComponent } from './estoque-listagem/estoque-listagem.co
     CommonModule,
     EstoqueRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ]
 })
 export class EstoqueModule { }

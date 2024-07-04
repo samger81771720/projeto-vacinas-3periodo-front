@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit{
 
   public usuarioAutenticado: Pessoa;
   public ehAdministrador: boolean = false;
+  
 
   constructor(private router: Router) {
 
@@ -30,11 +31,14 @@ export class HomeComponent implements OnInit{
 
   }
 
+  public editarPerfilDeUsuario(pessoaSelecionada: Pessoa): void{
+    this.router.navigate(['/pessoa/cadastro/', pessoaSelecionada.id]);
+  }
+
   logout(){
     localStorage.removeItem('usuarioAutenticado');
     this.router.navigate(['/login']);
   }
-
 
 }
 

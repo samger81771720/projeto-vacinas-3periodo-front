@@ -4,7 +4,6 @@ import { Estoque } from '../model/estoque';
 import { VacinaSeletor } from '../model/seletor/vacina.seletor';
 import { VacinaDTO } from '../model/dto/vacina.DTO';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

@@ -11,6 +11,7 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item func" href="pessoa/cadastro">CADASTRO DE USUÁRIO</a></li>
+                  <li><a class="dropdown-item func" href="pessoa/cadastro" (click)="editarPerfilDeUsuario(usuarioAutenticado)">EDITAR PERFIL DE USUÁRIO</a></li>
                   <li><a class="dropdown-item func" *ngIf="ehAdministrador" href="pessoa/listagem">LISTAGEM DE USUÁRIOS</a></li>
                 </ul>
             </li>

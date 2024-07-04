@@ -14,35 +14,32 @@ export class PessoaService {
 
   }
 
-  private readonly API: string = 'http://localhost:8080/projeto-vacinas-3periodo/rest/restrito/pessoa';
+  private readonly API: string = 'http://localhost:8080/projeto-vacinas-3periodo/rest/pessoa';
 
-  public efetuarLogin(pessoa: Pessoa): Observable<Pessoa>{
-    return this.httpClient.post<Pessoa>(this.API + '/login', pessoa);
-  }
 
   public salvar(pessoa: Pessoa): Observable<Pessoa>{
     return this.httpClient.post<Pessoa>(this.API, pessoa);
   }
 
   public atualizar(pessoa: Pessoa): Observable<boolean>{
-    return this.httpClient.put<boolean>(this.API, pessoa);
+    return this.httpClient.put<boolean>(this.API + '/restrito', pessoa);
   }
 
-  public consultarPessoasComFiltro(seletor: PessoaSeletor): Observable<Array<Pessoa>>{
+  /*public consultarPessoasComFiltro(seletor: PessoaSeletor): Observable<Array<Pessoa>>{
     return this.httpClient.post<Array<Pessoa>>(this.API
                                 + '/filtroConsultarPessoas', seletor);
-  }
+  }*/
 
   public consultarTodos(): Observable<Array<Pessoa>>{
-    return this.httpClient.get<Array<Pessoa>>(this.API + '/consultarTodasPessoas');
+    return this.httpClient.get<Array<Pessoa>>(this.API + '/restrito/consultarTodasPessoas');
   }
 
   public excluir(id: number): Observable<boolean>{
-    return this.httpClient.delete<boolean>(this.API + '/' + id);
+    return this.httpClient.delete<boolean>(this.API + '/restrito/' + id);
   }
 
   public consultarPorId(id: number): Observable<Pessoa>{
-    return this.httpClient.get<Pessoa>(this.API + '/' + id);
+    return this.httpClient.get<Pessoa>(this.API + '/restrito/' + id);
   }
 
 }
