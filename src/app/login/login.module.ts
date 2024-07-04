@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RequestInterceptor } from '../auth/request.interceptor';
 import { SharedModule } from '../shared/shared.module';
+import { PessoaModule } from '../pessoa/pessoa.module';
+
 
 @NgModule({
   declarations: [
@@ -17,7 +19,7 @@ import { SharedModule } from '../shared/shared.module';
     LoginRoutingModule,
     FormsModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
   ],
   providers: [ // Comentário 2 abaixo
     { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }

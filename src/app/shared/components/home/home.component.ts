@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Pessoa } from '../../shared/model/pessoa';
 import { Router } from '@angular/router';
+import { Pessoa } from '../../model/pessoa';
 
 @Component({
   selector: 'app-home',

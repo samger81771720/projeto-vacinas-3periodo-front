@@ -5,7 +5,7 @@ import { PessoaDetalheComponent } from './pessoa-detalhe/pessoa-detalhe.componen
 
 const routes: Routes = [
 
- { path: '', component: PessoaListagemComponent },
+ //{ path: '', component: PessoaDetalheComponent },
  { path: 'listagem', component: PessoaListagemComponent },
  { path: 'cadastro', component: PessoaDetalheComponent },
  { path: 'cadastro/:idPessoa', component: PessoaDetalheComponent}
@@ -16,4 +16,7 @@ const routes: Routes = [
  imports: [RouterModule.forChild(routes)],
  exports: [RouterModule]
 })
-export class PessoaRoutingModule { }
+
+export class PessoaRoutingModule {
+
+}
