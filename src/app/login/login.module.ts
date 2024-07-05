@@ -5,8 +5,9 @@ import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { RequestInterceptor } from '../auth/request.interceptor';
+
 import { SharedModule } from '../shared/shared.module';
+import { requestAngular17Interceptor } from '../auth/request-angular17.interceptor';
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule,
   ],
   providers: [ // Comentário 2 abaixo
-    { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: requestAngular17Interceptor, multi: true }
   ],
 })
 export class LoginModule {

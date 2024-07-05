@@ -26,7 +26,7 @@ export class LoginComponent {
       (usuarioAutenticado: Pessoa) => {
         Swal.fire('Sucesso', 'Usuário autenticado com sucesso', 'success');
         // comentário abaixo
-        if (typeof localStorage !== 'undefined') {
+        if (typeof window !== 'undefined' && window.localStorage) {
           localStorage.setItem('usuarioAutenticado', JSON.stringify(usuarioAutenticado));
         }
 
