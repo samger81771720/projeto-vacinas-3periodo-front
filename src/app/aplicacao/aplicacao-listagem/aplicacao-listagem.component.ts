@@ -26,6 +26,10 @@ import { Router } from '@angular/router';
   public aplicacoesDTO : Array<AplicacaoDTO> = new Array();
   public seletor : AplicacaoSeletor = new AplicacaoSeletor();
   public aplicacaoDTO : AplicacaoDTO = new AplicacaoDTO();
+  public usuarioAutenticado: Pessoa;
+  public ehAdministrador: boolean = false;
+  public pessoasParaSelecionar: Array<Pessoa> = new Array();
+
 
   constructor(
     private pessoaService : PessoaService,
@@ -37,7 +41,9 @@ import { Router } from '@angular/router';
   }
 
   ngOnInit(): void {
-    this.consultarTodosAsPessoas();
+
+    this.verificarTipoDeUsuario();
+    this.carregarPessoasDeAcordoComUsuario();
     this.consultarTodasAsUnidades();
     this.consultarTodasAsVacinas();
   }
@@ -46,9 +52,10 @@ import { Router } from '@angular/router';
     this.pessoaService.consultarTodos().subscribe(
       (resultado) => {
         this.pessoas = resultado;
+        this.pessoasParaSelecionar = this.pessoas;
       },
       (erro) => {
-        Swal.fire('Erro ao buscar a lista de pessoas','','error');
+        Swal.fire('Erro ao buscar a lista de pessoa(s)','','error');
       }
     );
   }
@@ -93,6 +100,29 @@ import { Router } from '@angular/router';
 
   public voltar(): void {
     this.router.navigate(['/aplicacao']);
+  }
+
+  public listaDeAcordoComUsuarioAutenticado(): void{
+
+    this.verificarTipoDeUsuario();
+    this.consultarTodosAsPessoas();
+  }
+
+
+  private verificarTipoDeUsuario(): void {
+    let usuarioNoStorage = localStorage.getItem('usuarioAutenticado');
+    if(usuarioNoStorage){
+      this.usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
+      this.ehAdministrador = this.usuarioAutenticado?.tipo == 2;
+    }
+  }
+
+  private carregarPessoasDeAcordoComUsuario(): void {
+    if (this.ehAdministrador) {
+      this.consultarTodosAsPessoas();
+    } else {
+      this.pessoasParaSelecionar = [this.usuarioAutenticado];
+    }
   }
 
 }

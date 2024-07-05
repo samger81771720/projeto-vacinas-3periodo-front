@@ -12,8 +12,8 @@
             <label for="id" class="form-label">Selecione nome do cidadão</label>
             <select class="form-control" name="id"
                     [(ngModel)]="seletor.idPessoaRecebeuAplicacao">
-                    <option value="" disabled selected>Clique numa unidade para selecioná-la</option>
-                @for(p of pessoas; track p.id) {
+                    <option value="" disabled selected>Clique no nome para selecioná-lo</option>
+                @for(p of pessoasParaSelecionar; track p.id) {
                     <option value="{{ p.id }}">{{ p.nome }}</option>
                 }
             </select>

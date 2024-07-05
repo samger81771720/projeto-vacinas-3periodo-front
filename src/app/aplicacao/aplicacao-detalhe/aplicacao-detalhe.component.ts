@@ -129,20 +129,13 @@ export class AplicacaoDetalheComponent {
   }
 
   public validacaoDeAcesso(): void {
-
     let usuarioNoStorage = localStorage.getItem('usuarioAutenticado');
-
     if(usuarioNoStorage){
       this.usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
       this.ehAdministrador = this.usuarioAutenticado?.tipo == 2;
-
       if(!this.ehAdministrador){
         this.router.navigate(['login/home']);
-        Swal.fire('Caro Sr. usuário: Você não tem permissão para acessar essa página. Evite problemas, e acesse apenas as opções disponíveis na tela.', '', 'error');
-
-      } else{
-        this.router.navigate(['login']);
-        Swal.fire('Não foi possível acessar o cadastro de aplicações, pois não há nenhum usuário autenticado.', '', 'error');
+        Swal.fire('Caro Sr. Usuário: Você não tem permissão para acessar essa página. Evite problemas, e acesse apenas as opções disponíveis na tela.', '', 'error');
       }
     }
   }

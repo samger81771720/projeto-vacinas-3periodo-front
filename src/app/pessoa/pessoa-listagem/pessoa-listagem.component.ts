@@ -95,7 +95,7 @@ export class PessoaListagemComponent implements OnInit{
   }
 
   //COMENTÁRIO 2
-  definirTipoDaExibicao(): Pessoa[] {
+  public definirTipoDaExibicao(): Pessoa[] {
     if (this.pessoa) {
       return [this.pessoa];
     } else {
