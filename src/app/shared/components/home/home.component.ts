@@ -12,7 +12,9 @@ export class HomeComponent implements OnInit{
 
   public usuarioAutenticado: Pessoa;
   public ehAdministrador: boolean = false;
-  
+  public opcaoCadastro: boolean = true;
+
+
 
   constructor(private router: Router) {
 
@@ -23,8 +25,15 @@ export class HomeComponent implements OnInit{
     let usuarioNoStorage = localStorage.getItem('usuarioAutenticado');
 
     if(usuarioNoStorage){
+
       this.usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
       this.ehAdministrador = this.usuarioAutenticado?.tipo == 2; // explicação abaixo do uso abaixo operador de encadeamento opcional.
+
+      if(!this.ehAdministrador){
+        this.opcaoCadastro = false;
+      }
+
+
     } else {
       this.router.navigate(['/login']);
     }

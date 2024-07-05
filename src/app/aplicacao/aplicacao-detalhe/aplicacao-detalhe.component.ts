@@ -23,6 +23,8 @@ export class AplicacaoDetalheComponent {
   public unidades : Array<Unidade> = new Array();
   public seletor : PessoaSeletor = new PessoaSeletor();
   public aplicacao : Aplicacao = new Aplicacao();
+  public usuarioAutenticado: Pessoa;
+  public ehAdministrador: boolean = false;
 
   constructor(
     private pessoaService : PessoaService,
@@ -35,9 +37,12 @@ export class AplicacaoDetalheComponent {
   }
 
   ngOnInit(): void {
+
+    this.validacaoDeAcesso();
     this.consultarTodasAsUnidades();
     this.consultarTodosAsPessoas();
     this.consultarTodasAsVacinas();
+
   }
 
   public compareById(r1: any, r2: any): boolean{
@@ -123,4 +128,26 @@ export class AplicacaoDetalheComponent {
     this.router.navigate(['/aplicacao']);
   }
 
+  public validacaoDeAcesso(): void {
+
+    let usuarioNoStorage = localStorage.getItem('usuarioAutenticado');
+
+    if(usuarioNoStorage){
+      this.usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
+      this.ehAdministrador = this.usuarioAutenticado?.tipo == 2;
+
+      if(!this.ehAdministrador){
+        this.router.navigate(['login/home']);
+        Swal.fire('Caro Sr. usuário: Você não tem permissão para acessar essa página. Evite problemas, e acesse apenas as opções disponíveis na tela.', '', 'error');
+
+      } else{
+        this.router.navigate(['login']);
+        Swal.fire('Não foi possível acessar o cadastro de aplicações, pois não há nenhum usuário autenticado.', '', 'error');
+      }
+    }
+  }
+
 }
+
+
+

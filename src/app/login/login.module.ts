@@ -7,7 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RequestInterceptor } from '../auth/request.interceptor';
 import { SharedModule } from '../shared/shared.module';
-import { PessoaModule } from '../pessoa/pessoa.module';
 
 
 @NgModule({

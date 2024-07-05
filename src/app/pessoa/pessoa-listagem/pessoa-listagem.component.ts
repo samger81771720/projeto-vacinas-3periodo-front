@@ -14,6 +14,8 @@ export class PessoaListagemComponent implements OnInit{
   public pessoa: Pessoa | null = null;
   public pessoas: Array<Pessoa> = new Array();
   public mostrarTabela: boolean = true;
+  public usuarioAutenticado: Pessoa;
+  public ehAdministrador: boolean = false;
 
   constructor(
     private pessoaService : PessoaService,
@@ -23,8 +25,11 @@ export class PessoaListagemComponent implements OnInit{
   }
 
   ngOnInit(): void {
+
+    this.validacaoDeAcesso();
     this.consultarTodasPessoas();
     this.mostrarTabela = false;
+
   }
 
   private consultarTodasPessoas(): void{
@@ -95,6 +100,25 @@ export class PessoaListagemComponent implements OnInit{
       return [this.pessoa];
     } else {
       return this.pessoas;
+    }
+  }
+
+  public validacaoDeAcesso(): void {
+
+    let usuarioNoStorage = localStorage.getItem('usuarioAutenticado');
+
+    if(usuarioNoStorage){
+      this.usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
+      this.ehAdministrador = this.usuarioAutenticado?.tipo == 2;
+
+      if(!this.ehAdministrador){
+        this.router.navigate(['login/home']);
+        Swal.fire('Caro Sr. usuário: Você não tem permissão para acessar essa página. Evite problemas, e acesse apenas as opções disponíveis na tela.', '', 'error');
+
+      } else{
+        this.router.navigate(['login']);
+        Swal.fire('Não foi possível acessar o cadastro de aplicações, pois não há nenhum usuário autenticado.', '', 'error');
+      }
     }
   }
 

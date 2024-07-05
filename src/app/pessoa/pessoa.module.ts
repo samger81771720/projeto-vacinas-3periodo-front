@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { PessoaDetalheComponent } from './pessoa-detalhe/pessoa-detalhe.component';
 import { NgxViacepModule } from "@brunoc/ngx-viacep";
 import { SharedModule } from '../shared/shared.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { SharedModule } from '../shared/shared.module';
     PessoaRoutingModule,
     FormsModule,
     NgxViacepModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule
   ]
 })
 export class PessoaModule { }

@@ -7,6 +7,7 @@ import { Vacina } from '../../shared/model/vacina';
 import { VacinaService } from '../../shared/service/vacina.service';
 import { EstoqueService } from '../../shared/service/estoque.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Pessoa } from '../../shared/model/pessoa';
 
 @Component({
   selector: 'app-estoque-detalhe',
@@ -20,6 +21,8 @@ export class EstoqueDetalheComponent {
   public estoque : Estoque = new Estoque();
   public idUnidade: number;
   public idVacina: number;
+  public usuarioAutenticado: Pessoa;
+  public ehAdministrador: boolean = false;
 
   constructor(
     private unidadeService: UnidadeService,
@@ -33,6 +36,7 @@ export class EstoqueDetalheComponent {
 
   ngOnInit(): void {
 
+    this.validacaoDeAcesso();
     this.consultarTodasUnidades();
     this.consultarTodasVacinas();
 
@@ -179,6 +183,25 @@ export class EstoqueDetalheComponent {
 
   public voltar(): void {
     this.router.navigate(['/estoque/listagem']);
+  }
+
+  public validacaoDeAcesso(): void {
+
+    let usuarioNoStorage = localStorage.getItem('usuarioAutenticado');
+
+    if(usuarioNoStorage){
+      this.usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
+      this.ehAdministrador = this.usuarioAutenticado?.tipo == 2;
+
+      if(!this.ehAdministrador){
+        this.router.navigate(['login/home']);
+        Swal.fire('Caro Sr. usuário: Você não tem permissão para acessar essa página. Evite problemas, e acesse apenas as opções disponíveis na tela.', '', 'error');
+
+      } else{
+        this.router.navigate(['login']);
+        Swal.fire('Não foi possível acessar o cadastro de aplicações, pois não há nenhum usuário autenticado.', '', 'error');
+      }
+    }
   }
 
 }

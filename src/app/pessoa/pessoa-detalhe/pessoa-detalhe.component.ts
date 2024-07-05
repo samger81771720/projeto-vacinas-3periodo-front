@@ -19,6 +19,9 @@ export class PessoaDetalheComponent implements OnInit{
 
   public idPessoa: number;
   public pessoa: Pessoa = new Pessoa();
+  private readonly USUARIO_NAO_AUTENTICADO: number = 1;
+  private readonly USUARIO: number = 1;
+  private readonly ADMINISTRADOR: number = 2;
 
   /* Observe no import { Endereco, CEPError } from "@brunoc/ngx-viacep"
   que essa classe Endereco pertence a outra interface */
@@ -76,7 +79,7 @@ export class PessoaDetalheComponent implements OnInit{
         Swal.fire(
           this.pessoa.nome + ' você foi cadastrado com sucesso no sistema!','', 'success'
         );
-        this.voltar();
+        this.definirRotaParaTipoDeUsuario();
       },
       (erro) => {
         Swal.fire(
@@ -159,6 +162,7 @@ export class PessoaDetalheComponent implements OnInit{
   }
 
   public voltar(): void {
+
     this.router.navigate(['/']);
   }
 
@@ -264,4 +268,27 @@ export class PessoaDetalheComponent implements OnInit{
     }
   }
 
+  public definirRotaParaTipoDeUsuario(): void {
+
+    let usuarioAutenticado: Pessoa;
+    let ehAdministrador: boolean = false;
+    let usuarioNoStorage = localStorage.getItem('usuarioAutenticado');
+
+    if (usuarioNoStorage) {
+
+        usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
+        ehAdministrador = usuarioAutenticado?.tipo == 2;
+
+        if (ehAdministrador) {
+          this.router.navigate(['login/home']);
+        } else {
+          this.router.navigate(['login']);
+        }
+    }
+  }
+
 }
+
+
+
+
