@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { LoginService } from '../shared/service/login.service';
 
-
 export const requestAngular17Interceptor: HttpInterceptorFn = (req, next) => {
 
+  const router = inject(Router);
+  const loginService = inject(LoginService);
   let authReq = req;
 
   if (typeof window !== 'undefined' && window.localStorage) {
@@ -21,9 +22,11 @@ export const requestAngular17Interceptor: HttpInterceptorFn = (req, next) => {
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
-      const router = inject(Router);
-      const loginService = inject(LoginService);
-      if (error.status === 401 || error.status === 403) {
+      if (
+           error.status === 400 ||
+           error.status === 401 ||
+           error.status === 403
+        ) {
         loginService.sair();
         router.navigate(['/login']);
       }
