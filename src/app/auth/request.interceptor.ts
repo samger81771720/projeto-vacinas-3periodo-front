@@ -15,12 +15,6 @@ export class RequestInterceptor implements HttpInterceptor {
     const usuarioAutenticado = localStorage.getItem('usuarioAutenticado');              // Obtém a informação do usuário autenticado armazenada no localStorage
     let authReq = req;                                                                  // Cria uma variável authReq que inicialmente é a requisição original
 
-    // ESSA IMPLEMENTAÇÃO CONDICIONAL NÃO FUNCIONA
-    if (req.url.includes('/pessoa/cadastro') && !usuarioAutenticado) {
-      this.router.navigate(['/pessoa/cadastro']);
-    }
-
-
     if (usuarioAutenticado) {
       authReq = req.clone({                                                             // Clona a requisição original para criar uma nova requisição
         setHeaders: { idSessao: JSON.parse(usuarioAutenticado).idSessao }               // Adiciona um cabeçalho personalizado 'idSessao' à nova requisição e  O valor de 'idSessao' é extraído do objeto JSON 'usuarioAutenticado' armazenado no localStorage.
