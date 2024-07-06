@@ -12,6 +12,7 @@ export const requestAngular17Interceptor: HttpInterceptorFn = (req, next) => {
 
   if (typeof window !== 'undefined' && window.localStorage) {
     const usuarioAutenticado = localStorage.getItem('usuarioAutenticado');
+
     if (usuarioAutenticado) {
       const usuario = JSON.parse(usuarioAutenticado);
       authReq = req.clone({

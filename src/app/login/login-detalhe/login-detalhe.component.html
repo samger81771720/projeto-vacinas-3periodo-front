@@ -1,0 +1,170 @@
+<br>
+<div class="jumbotron">
+  <div class="card">
+    <div class="card-header text-white bg-primary">
+      <h4>{{idPessoa ? 'Editar' : 'Cadastro de'}} Usuário</h4>
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <br><br><br>
+        <div class="form-group col-md-5">
+          <label for="nomeDaPessoa">Nome</label>
+          <input class="form-control" name="nomeDaPessoa" id="nomeDaPessoa" type="text"
+                 placeholder="insira aqui o seu nome"
+                 [(ngModel)]="pessoa.nome" required>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="dataNascimento">Data de Nascimento</label>
+          <input type="date" class="form-control" name="dataNascimento" id="dataNascimento"
+                 [(ngModel)]="pessoa.dataNascimento" required>
+        </div>
+        <div class="form-group col-md-2 titulo-centro">
+          <label for="sexo">Sexo</label>
+          <select class="form-control" name="sexo" id="sexo"
+                  [(ngModel)]="pessoa.sexo">
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
+            <option value="O">Outros</option>
+          </select>
+        </div>
+        <div class="form-group col-md-2 titulo-centro">
+          <label for="tipoPessoa">Tipo de Usuário</label>
+          <select class="form-control" name="tipoPessoa" id="tipoPessoa"
+                  [(ngModel)]="pessoa.tipo" required>
+            <option value="1">Usuário</option>
+            <option value="2">Administrador</option>
+          </select>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="form-group col-md-2">
+          <label for="cpf">CPF</label>
+          <input class="form-control" name="cpf" id="cpf" type="text"
+                 placeholder="insira aqui o CPF"
+                 [(ngModel)]="pessoa.cpf" required>
+        </div>
+        <div class="form-group col-md-2 titulo-centro">
+          <label for="login">Login</label>
+          <input class="form-control" name="login" id="login" type="text"
+                 placeholder="insira aqui o Login"
+                 [(ngModel)]="pessoa.login" required>
+        </div>
+        <div class="form-group col-md-2 titulo-centro">
+          <label for="senha">Senha</label>
+          <input class="form-control" name="senha" id="senha" type="text"
+                 placeholder="insira aqui a senha"
+                 [(ngModel)]="pessoa.senha" required>
+        </div>
+        <div class="form-group col-md-3 titulo-centro">
+          <label for="doencaPreexistente">Possui doença pré-existente?</label>
+          <select class="form-control" name="doencaPreexistente" id="doencaPreexistente"
+                  [(ngModel)]="pessoa.doencaPreexistente" required>
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+          </select>
+        </div>
+        <div class="form-group col-md-2 titulo-centro">
+          <label for="cep">CEP</label>
+          <input class="form-control" name="cep" id="cep" type="text"
+                 placeholder="insira o CEP"
+                 [(ngModel)]="pessoa.enderecoDaPessoa.cep" (blur)="buscarCEP()">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="form-group col-md-3">
+          <label for="pais">País</label>
+          <input class="form-control" name="pais" id="pais" type="text"
+                 placeholder="insira o nome do pais"
+                 [(ngModel)]="pessoa.enderecoDaPessoa.pais">
+        </div>
+        <div class="form-group col-md-3 titulo-centro">
+          <label for="estado">Estado(sigla)</label>
+          <input class="form-control" name="estado" id="estado" type="text"
+                 placeholder="insira o nome do Estado"
+                 [(ngModel)]="pessoa.enderecoDaPessoa.estado">
+        </div>
+        <div class="form-group col-md-3 titulo-centro">
+          <label for="localidade">Cidade</label>
+          <input class="form-control" name="localidade" id="localidade" type="text"
+                 placeholder="insira o nome da Cidade"
+                 [(ngModel)]="pessoa.enderecoDaPessoa.localidade">
+        </div>
+        <div class="form-group col-md-2 titulo-centro">
+          <label for="bairro">Bairro</label>
+          <input class="form-control" name="bairro" id="bairro" type="text"
+                 placeholder="insira o bairro"
+                 [(ngModel)]="pessoa.enderecoDaPessoa.bairro">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="form-group col-md-3">
+          <label for="logradouro">Logradouro</label>
+          <input class="form-control" name="logradouro" id="logradouro" type="text"
+                 placeholder="insira o logradouro completo"
+                 [(ngModel)]="pessoa.enderecoDaPessoa.logradouro">
+        </div>
+        <div class="form-group col-md-2 titulo-centro">
+          <label for="numero">Número</label>
+          <input class="form-control" name="numero" id="numero" type="text"
+                 placeholder="insira o número"
+                 [(ngModel)]="pessoa.enderecoDaPessoa.numero">
+        </div>
+        <div class="form-group col-md-3 titulo-centro">
+          <label for="complemento">Complemento</label>
+          <input class="form-control" name="complemento" id="complemento" type="text"
+                 placeholder="insira o complemento"
+                 [(ngModel)]="pessoa.enderecoDaPessoa.complemento">
+        </div>
+        <div class="form-group col-md-3 titulo-centro">
+          <label for="email">Email</label>
+          <input class="form-control" name="email" id="email" type="text"
+                 placeholder="insira o email"
+                 [(ngModel)]="pessoa.contatoDaPessoa.email">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="form-group col-md-3">
+          <label for="telefone">Telefone</label>
+          <input class="form-control" name="telefone" id="telefone" type="text"
+                 placeholder="insira o telefone"
+                 [(ngModel)]="pessoa.contatoDaPessoa.telefone">
+        </div>
+        <div class="form-group col-md-2">
+          <button type="button" class="form-control btn botao-buscar-endereco"
+          (click)="buscarEnderecoPorDados()">Buscar Endereço
+          </button>
+        </div>
+        <div class="form-group col-md-2 botao">
+          <button type="submit" class="form-control btn botao-voltar" (click)="voltar()">
+            <i class="bi bi-arrow-left"></i> Voltar
+          </button>
+        </div>
+        <div class="form-group col-md-2 botao">
+          <button type="button" class="form-control btn btn-secondary botao-limpar" (click)="limparFormulario()">
+            <i class="bi bi-x-circle"></i> Limpar
+          </button>
+        </div>
+        <div class="form-group col-md-2 botao">
+          <button type="submit" class="btn btn-primary w-100 botao-cadastrar" (click)="salvar()">CADASTRAR</button>
+        </div>
+      </div>
+      <div *ngIf="listaDeEnderecos.length > 0" class="row mb-3">
+        <div class="col-md-12">
+          <h4>Endereços Encontrados:</h4>
+          <ul>
+            <li *ngFor="let endereco of listaDeEnderecos">
+              {{ endereco.logradouro }},
+              {{ endereco.bairro }} -
+              {{ endereco.localidade }} -
+              {{ endereco.uf }} - CEP
+              {{ endereco.cep }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br><br>
+</div>
+<br><br>
+

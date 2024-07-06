@@ -1,0 +1,75 @@
+label{
+  margin-bottom: 3px;
+  font-size: 20px;
+  font-weight: 500;
+  font-family: var(--bs-font-sans-serif);
+  display: block; /* Garante que o label seja um bloco para a centralização */
+  width: 100%; /* Garante que o label ocupe a largura completa do contêiner */
+
+}
+
+.titulo-centro{
+  text-align: center;
+}
+
+h5{
+  text-decoration: underline;
+  font-size: 30px;
+  margin-top: 20px;
+  margin-bottom: 60px;
+}
+
+input, select{
+  background-color: goldenrod;
+}
+
+.form-group{
+  margin-top: 10px;
+}
+
+button, select, input {
+  border: 1px solid black;
+}
+
+.botao{
+  margin-top: 43px;
+}
+
+.botao-voltar{
+  font-size: 15px;
+  background-color:rgb(146, 124, 124);
+  font-weight: 500;
+  background-color:cadetblue;
+}
+
+.botao-limpar{
+  font-size: 15px;
+  font-weight: 500;
+  color: black;
+}
+
+.botao-cadastrar{
+  font-size: 15px;
+  font-weight: 500;
+  color: white;
+  letter-spacing: 4px;
+}
+
+button{
+  border: 2px solid black;
+}
+
+input::placeholder {
+  text-align: center;
+  padding-top: 10px;
+}
+
+.botao-buscar-endereco{
+  font-size: 15px;
+  font-weight: 500;
+  background-color: cornflowerblue;
+  margin-top: 33px;
+}
+
+
+

@@ -29,12 +29,10 @@ export class LoginComponent {
         if (typeof window !== 'undefined' && window.localStorage) {
           localStorage.setItem('usuarioAutenticado', JSON.stringify(usuarioAutenticado));
         }
-
         this.router.navigate(['login/home']);
-
       },
       (erro) => {
-        Swal.fire('Erro', erro.mensagem, 'error');
+        Swal.fire('Erro', erro.error.mensagem, 'error');
       }
     )
   }

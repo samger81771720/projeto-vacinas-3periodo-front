@@ -4,24 +4,23 @@ import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginDetalheComponent } from './login-detalhe/login-detalhe.component';
+import { NgxViacepModule } from "@brunoc/ngx-viacep";
 import { SharedModule } from '../shared/shared.module';
-
-
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    LoginDetalheComponent
   ],
   imports: [ // Comentário 1 abaixo
     CommonModule,
     LoginRoutingModule,
     FormsModule,
     HttpClientModule,
-    SharedModule,
-  ]/*,
-  providers: [ // Comentário 2 abaixo
-    { provide: HTTP_INTERCEPTORS, useClass: requestAngular17Interceptor, multi: true }
-  ],*/
+    NgxViacepModule,
+    SharedModule
+  ]
 })
 export class LoginModule {
 
