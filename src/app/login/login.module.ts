@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
 import { SharedModule } from '../shared/shared.module';
-import { requestAngular17Interceptor } from '../auth/request-angular17.interceptor';
+
 
 
 @NgModule({
@@ -20,10 +18,10 @@ import { requestAngular17Interceptor } from '../auth/request-angular17.intercept
     FormsModule,
     HttpClientModule,
     SharedModule,
-  ],
+  ]/*,
   providers: [ // Comentário 2 abaixo
     { provide: HTTP_INTERCEPTORS, useClass: requestAngular17Interceptor, multi: true }
-  ],
+  ],*/
 })
 export class LoginModule {
 

@@ -8,6 +8,12 @@ export const appConfig: ApplicationConfig = {
 
   providers: [
     provideRouter(routes),
-    provideHttpClient(withFetch(), withInterceptors([requestAngular17Interceptor]))
+    provideHttpClient(withInterceptors([requestAngular17Interceptor])),
+    provideHttpClient(withFetch())
   ]
+  /*
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(withFetch(), withInterceptors([requestAngular17Interceptor]))
+  ]*/
 };

@@ -46,18 +46,19 @@ export class PessoaDetalheComponent implements OnInit{
         }
       }
     )
-
   }
+
 
   public consultarPessoaPorId(): void{
     this.pessoaService.consultarPorId(this.idPessoa).subscribe(
       (resultado) => {
         this.pessoa = resultado;
+        this.pessoa.senha = '';
       },
       (erro) => {
         Swal.fire(
           'Erro ao buscar o usuário ' + this.pessoa.nome
-          + 'no banco de dados para editá-la',erro,'error'
+          + ' no banco de dados para editá-la',erro,'error'
         );
       }
     )
@@ -151,12 +152,15 @@ export class PessoaDetalheComponent implements OnInit{
       (resultado) => {
         Swal.fire(this.pessoa.nome
           + ' o seu cadastro foi atualizado com sucesso no sistema!','', 'success');
-          this.voltar();
+          this.router.navigate(['pessoa/listagem']);
       },
       (erro) => {
         Swal.fire(this.pessoa.nome
           + ' houve um erro ao tentar atualizar o seu cadastro no sistema: '
           + erro.error.mensagem, 'error' + ' Tente novamente.');
+          // Não redireciona para "pessoa/listagem" e nem para "this.ngOnInit();"
+          // this.router.navigate(['pessoa/listagem']);
+          this.ngOnInit();
       }
     );
   }

@@ -196,10 +196,6 @@ export class EstoqueDetalheComponent {
       if(!this.ehAdministrador){
         this.router.navigate(['login/home']);
         Swal.fire('Caro Sr. usuário: Você não tem permissão para acessar essa página. Evite problemas, e acesse apenas as opções disponíveis na tela.', '', 'error');
-
-      } else{
-        this.router.navigate(['login']);
-        Swal.fire('Não foi possível acessar o cadastro de aplicações, pois não há nenhum usuário autenticado.', '', 'error');
       }
     }
   }
