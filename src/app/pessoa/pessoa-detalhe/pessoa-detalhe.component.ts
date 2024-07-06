@@ -78,8 +78,9 @@ export class PessoaDetalheComponent implements OnInit{
     this.pessoaService.salvar(this.pessoa).subscribe(
       (resultado) => {
         Swal.fire(
-          this.pessoa.nome + ' você foi cadastrado com sucesso no sistema!','', 'success'
+          this.pessoa.nome + ' você foi cadastrado(a) com sucesso no sistema!','', 'success'
         );
+        // "this.definirRotaParaTipoDeUsuario()" é necessário caso seja o primeiro cadastro de usuário no sistema
         this.definirRotaParaTipoDeUsuario();
       },
       (erro) => {

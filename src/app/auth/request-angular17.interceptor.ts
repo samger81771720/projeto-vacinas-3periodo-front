@@ -24,7 +24,6 @@ export const requestAngular17Interceptor: HttpInterceptorFn = (req, next) => {
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
       if (
-           error.status === 400 ||
            error.status === 401 ||
            error.status === 403
         ) {
@@ -36,4 +35,5 @@ export const requestAngular17Interceptor: HttpInterceptorFn = (req, next) => {
   );
 
 };
+
 
