@@ -29,6 +29,9 @@ import { Router } from '@angular/router';
   public usuarioAutenticado: Pessoa;
   public ehAdministrador: boolean = false;
   public pessoasParaSelecionar: Array<Pessoa> = new Array();
+  private readonly USUARIO: number = 1;
+  private readonly ADMINISTRADOR: number = 2;
+  public ehUsuario: boolean = false;
 
 
   constructor(
@@ -41,11 +44,13 @@ import { Router } from '@angular/router';
   }
 
   ngOnInit(): void {
-
-    this.verificarTipoDeUsuario();
-    this.carregarPessoasDeAcordoComUsuario();
-    this.consultarTodasAsUnidades();
-    this.consultarTodasAsVacinas();
+    this.identificarUsuario();
+    if(this.ehAdministrador||this.ehUsuario){
+      this.verificarTipoDeUsuario();
+      this.carregarPessoasDeAcordoComUsuario();
+      this.consultarTodasAsUnidades();
+      this.consultarTodasAsVacinas();
+    }
   }
 
   public consultarTodosAsPessoas(): void{
@@ -99,15 +104,13 @@ import { Router } from '@angular/router';
   }
 
   public voltar(): void {
-    this.router.navigate(['/aplicacao']);
+    this.router.navigate(['/login/home']);
   }
 
   public listaDeAcordoComUsuarioAutenticado(): void{
-
     this.verificarTipoDeUsuario();
     this.consultarTodosAsPessoas();
   }
-
 
   private verificarTipoDeUsuario(): void {
     let usuarioNoStorage = localStorage.getItem('usuarioAutenticado');
@@ -123,6 +126,19 @@ import { Router } from '@angular/router';
     } else {
       this.pessoasParaSelecionar = [this.usuarioAutenticado];
     }
+  }
+
+  public identificarUsuario(): void{
+    let usuarioNoStorage = localStorage.getItem('usuarioAutenticado');
+    if (usuarioNoStorage) {
+        this.usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
+        this.ehAdministrador = this.usuarioAutenticado?.tipo == this.ADMINISTRADOR;
+        this.ehUsuario = this.usuarioAutenticado?.tipo == this.USUARIO;
+     }
+     if(!this.ehAdministrador && !this.ehUsuario){
+      this.router.navigate(['login']);
+      Swal.fire('Você não é um usuário cadastrado no sistema e também não tem permissão para acessar essa página.', '', 'error');
+     }
   }
 
 }

@@ -25,8 +25,8 @@ export class HomeComponent implements OnInit{
     this.identificarTipoDeUsuario();
   }
 
-  public editarPerfilDeUsuario(pessoaSelecionada: Pessoa): void{
-    this.router.navigate(['/pessoa/cadastro/', pessoaSelecionada.id]);
+  public editarPerfilDeUsuario(): void{
+    this.router.navigate(['/pessoa/cadastro/'+ this.usuarioAutenticado.id ]);
   }
 
   sair(){

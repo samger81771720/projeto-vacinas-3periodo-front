@@ -37,12 +37,12 @@ export class AplicacaoDetalheComponent {
   }
 
   ngOnInit(): void {
-
     this.validacaoDeAcesso();
-    this.consultarTodasAsUnidades();
+    if(this.ehAdministrador){
+      this.consultarTodasAsUnidades();
     this.consultarTodosAsPessoas();
     this.consultarTodasAsVacinas();
-
+    }
   }
 
   public compareById(r1: any, r2: any): boolean{
@@ -125,7 +125,7 @@ export class AplicacaoDetalheComponent {
   }
 
   public voltar(): void {
-    this.router.navigate(['/aplicacao']);
+    this.router.navigate(['/login/home']);
   }
 
   public validacaoDeAcesso(): void {
@@ -137,6 +137,9 @@ export class AplicacaoDetalheComponent {
         this.router.navigate(['login/home']);
         Swal.fire('Caro Sr. Usuário: Você não tem permissão para acessar essa página. Evite problemas, e acesse apenas as opções disponíveis na tela.', '', 'error');
       }
+    } else {
+      this.router.navigate(['login']);
+      Swal.fire('Você não é um usuário cadastrado no sistema e também não tem permissão para acessar essa página.', '', 'error');
     }
   }
 

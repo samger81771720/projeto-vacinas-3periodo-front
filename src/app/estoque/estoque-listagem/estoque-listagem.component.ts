@@ -4,8 +4,6 @@ import { Estoque } from '../../shared/model/estoque';
 import { EstoqueService } from '../../shared/service/estoque.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
-import { Unidade } from '../../shared/model/unidade';
-import { Vacina } from '../../shared/model/vacina';
 import { Pessoa } from '../../shared/model/pessoa';
 
 @Component({
@@ -20,6 +18,9 @@ export class EstoqueListagemComponent implements OnInit{
   public mostrarTabela: boolean = true;
   public usuarioAutenticado: Pessoa;
   public ehAdministrador: boolean = false;
+  public ehUsuario: boolean = false;
+  private readonly USUARIO: number = 1;
+  private readonly ADMINISTRADOR: number = 2;
 
   constructor(
     private estoqueService : EstoqueService,
@@ -29,11 +30,15 @@ export class EstoqueListagemComponent implements OnInit{
   }
 
   ngOnInit(): void{
-
     this.validacaoDeAcesso();
-    this.consultarTodosEstoques();
-    this.mostrarTabela = false;
-
+    if(!this.ehUsuario && !this.ehAdministrador){
+      this.router.navigate(['login']);
+        Swal.fire('Você não é um usuário cadastrado no sistema e também não tem permissão para acessar essa página.', '', 'error');
+    }
+    if(this.ehAdministrador){
+      this.consultarTodosEstoques();
+      this.mostrarTabela = false;
+    }
   }
 
   private consultarTodosEstoques(): void{
@@ -76,7 +81,7 @@ export class EstoqueListagemComponent implements OnInit{
   }
 
   public voltar(): void {
-    this.router.navigate(['/estoque']);
+    this.router.navigate(['/login/home']);
   }
 
   public limpar(): void {
@@ -102,13 +107,11 @@ export class EstoqueListagemComponent implements OnInit{
   }
 
   public validacaoDeAcesso(): void {
-
     let usuarioNoStorage = localStorage.getItem('usuarioAutenticado');
-
     if(usuarioNoStorage){
       this.usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
-      this.ehAdministrador = this.usuarioAutenticado?.tipo == 2;
-
+      this.ehAdministrador = this.usuarioAutenticado?.tipo == this.ADMINISTRADOR;
+      this.ehUsuario = this.usuarioAutenticado?.tipo == this.USUARIO;
       if(!this.ehAdministrador){
         this.router.navigate(['login/home']);
         Swal.fire('Caro Sr. usuário: Você não tem permissão para acessar essa página. Evite problemas, e acesse apenas as opções disponíveis na tela.', '', 'error');

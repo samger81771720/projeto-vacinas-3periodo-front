@@ -10,6 +10,7 @@ import { FabricanteService } from '../../shared/service/fabricante.service';
 import { Fabricante } from '../../shared/model/fabricante';
 import { UnidadeService } from '../../shared/service/unidade.service';
 import { Unidade } from '../../shared/model/unidade';
+import { Pessoa } from '../../shared/model/pessoa';
 
 @Component({
   selector: 'app-vacina-listagem',
@@ -26,6 +27,11 @@ export class VacinaListagemComponent implements OnInit{
     public listaDeUnidades : Array<Unidade> = new Array();
     public mostrarTabela: boolean = true;
     public temRegistro: boolean = true;
+    public usuarioAutenticado: Pessoa;
+    public ehAdministrador: boolean = false;
+    public ehUsuario: boolean = false;
+    private readonly USUARIO: number = 1;
+    private readonly ADMINISTRADOR: number = 2;
 
 
     constructor(
@@ -38,12 +44,19 @@ export class VacinaListagemComponent implements OnInit{
     }
 
   ngOnInit(): void {
+    this.validacaoDeAcesso();
+    if(!this.ehUsuario && !this.ehAdministrador){
+      this.router.navigate(['login']);
+        Swal.fire('Você não é um usuário cadastrado no sistema e também não tem permissão para acessar essa página.', '', 'error');
+    }
+    if(this.ehAdministrador||this.ehUsuario){
     this.vacinaSeletor.pagina = 1;
     this.consultarTodasVacinas();
     this.consultarTodasCategorias();
     this.consultarTodosFabricantes();
     this.consultarTodasUnidades();
     this.pesquisarComFiltros();
+    }
   }
 
   private consultarTodasVacinas(): void{
@@ -101,7 +114,7 @@ export class VacinaListagemComponent implements OnInit{
   }
 
   public voltar(): void {
-    this.router.navigate(['/vacina']);
+    this.router.navigate(['/login/home']);
   }
 
   public limpar(): void {
@@ -142,6 +155,15 @@ export class VacinaListagemComponent implements OnInit{
   atualizarQtdeRegistrosPorPagina() {
     this.pesquisarComFiltros();
     this.mostrarTabela = true;
+  }
+
+  public validacaoDeAcesso(): void {
+    let usuarioNoStorage = localStorage.getItem('usuarioAutenticado');
+    if(usuarioNoStorage){
+      this.usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
+      this.ehAdministrador = this.usuarioAutenticado?.tipo == this.ADMINISTRADOR;
+      this.ehUsuario = this.usuarioAutenticado?.tipo == this.USUARIO;
+    }
   }
 
 }

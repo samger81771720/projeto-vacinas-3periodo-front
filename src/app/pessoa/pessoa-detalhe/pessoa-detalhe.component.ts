@@ -23,6 +23,7 @@ export class PessoaDetalheComponent implements OnInit{
   private readonly USUARIO: number = 1;
   private readonly ADMINISTRADOR: number = 2;
   public ehAdministrador: boolean = false;
+  public ehUsuario: boolean = false;
 
   /* Observe no import { Endereco, CEPError } from "@brunoc/ngx-viacep"
   que essa classe Endereco pertence a outra interface */
@@ -38,6 +39,13 @@ export class PessoaDetalheComponent implements OnInit{
   }
 
   ngOnInit(): void {
+
+    this.verificarUsuarioComumLogado();
+
+    if(this.ehUsuario){
+      Swal.fire('Você não tem permissão para realizar outro cadastro. Você somente pode editar os seus dados pessoas.', '', 'warning');
+      this.router.navigate(['/login/home']);
+    }
 
     this.route.params.subscribe(
       (params) =>{
@@ -167,8 +175,7 @@ export class PessoaDetalheComponent implements OnInit{
   }
 
   public voltar(): void {
-
-    this.router.navigate(['/']);
+    this.router.navigate(['/login/home']);
   }
 
   public limparFormulario(): void {
@@ -283,14 +290,24 @@ export class PessoaDetalheComponent implements OnInit{
      return this.ehAdministrador;
   }
 
-  public definirRotaParaTipoDeUsuario(): void {
+  public verificarUsuarioComumLogado(): boolean{
+    let usuarioAutenticado: Pessoa;
+    let usuarioNoStorage = localStorage.getItem('usuarioAutenticado');
+    if (usuarioNoStorage) {
+        usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
+        this.ehUsuario = usuarioAutenticado?.tipo == this.USUARIO;
+     }
+     return this.ehUsuario;
+  }
+
+   public definirRotaParaTipoDeUsuario(): void {
     if (this.identificarAdministrador()) {
       this.router.navigate(['login/home']);
     } else {
       this.router.navigate(['login']);
     }
   }
-  
+
 }
 
 
