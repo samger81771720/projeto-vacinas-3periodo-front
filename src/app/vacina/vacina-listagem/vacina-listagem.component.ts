@@ -11,7 +11,6 @@ import { Fabricante } from '../../shared/model/fabricante';
 import { UnidadeService } from '../../shared/service/unidade.service';
 import { Unidade } from '../../shared/model/unidade';
 
-
 @Component({
   selector: 'app-vacina-listagem',
   templateUrl: './vacina-listagem.component.html',
@@ -39,7 +38,6 @@ export class VacinaListagemComponent implements OnInit{
     }
 
   ngOnInit(): void {
-    this.mostrarTabela = false;
     this.vacinaSeletor.pagina = 1;
     this.consultarTodasVacinas();
     this.consultarTodasCategorias();
@@ -81,6 +79,7 @@ export class VacinaListagemComponent implements OnInit{
 
   public pesquisarSemFiltros(): void {
     this.vacinaSeletor = new VacinaSeletor();
+    this.vacinaSeletor.pagina = 1;
     this.pesquisarComFiltros();
     this.mostrarTabela = true;
   }
@@ -88,15 +87,12 @@ export class VacinaListagemComponent implements OnInit{
   public pesquisarComFiltros(): void{
     this.estoqueService.consultarComFiltros(this.vacinaSeletor).subscribe(
       (resultado) => {
-        this.listaVacinasDTO = resultado;
         if(resultado.length > 0){
           this.listaVacinasDTO = resultado;
+          this.mostrarTabela = true;
         } else{
-          this.vacinaSeletor.pagina--;
-          Swal.fire('Não há mais registros de vacinas a serem exibidos de acordo com o critério da sua consulta.');
-          this.pesquisarComFiltros();
+          Swal.fire('"Infelizmente não existe nenhum resultado disponível de acordo com a sua busca. Tente outras opções"');
         }
-        this.mostrarTabela = true;
       },
       (erro) => {
         Swal.fire('Erro ao buscar todas as vacinas com o seletor.','','error');
@@ -110,6 +106,7 @@ export class VacinaListagemComponent implements OnInit{
 
   public limpar(): void {
     this.vacinaSeletor = new VacinaSeletor();
+    this.vacinaSeletor.pagina = 1;
     this.listaVacinasDTO = new Array();
     this.mostrarTabela = false;
   }
@@ -126,9 +123,20 @@ export class VacinaListagemComponent implements OnInit{
     this.mostrarTabela = true;
   }
 
-  public posterior(): void{
+  public posterior(): void {
     this.vacinaSeletor.pagina++;
-    this.pesquisarComFiltros();
+    this.estoqueService.consultarComFiltros(this.vacinaSeletor).subscribe(
+      resultado => {
+        if (resultado.length > 0) {
+          this.listaVacinasDTO = resultado;
+        } else {
+          this.vacinaSeletor.pagina--;
+          Swal.fire('Não há mais registros de vacinas a serem exibidos de acordo com o critério da sua consulta.');
+        }
+        this.mostrarTabela = true;
+      },
+      erro => Swal.fire('Erro ao buscar todas as vacinas com o seletor.', '', 'error')
+    );
   }
 
   atualizarQtdeRegistrosPorPagina() {
