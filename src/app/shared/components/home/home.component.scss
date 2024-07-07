@@ -56,7 +56,23 @@ nav{
   border-right: 2px solid black;
 }
 
+.classe-para-cor{
+  color: rgb(255, 193, 7);
+  font-size: 17px;
+}
+
 .icone-sair{
   cursor: pointer;
 }
 
+.clique-sair:hover{
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.frase{
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  font-style: italic;
+}

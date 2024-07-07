@@ -12,41 +12,38 @@ export class HomeComponent implements OnInit{
 
   public usuarioAutenticado: Pessoa;
   public ehAdministrador: boolean = false;
-  public opcaoCadastro: boolean = true;
-
-
+  public ehUsuario: boolean = false;
+  public opcaoCadastro: boolean = false;
+  private readonly USUARIO: number = 1;
+  private readonly ADMINISTRADOR: number = 2;
 
   constructor(private router: Router) {
 
   }
 
   ngOnInit(): void {
-
-    let usuarioNoStorage = localStorage.getItem('usuarioAutenticado');
-
-    if(usuarioNoStorage){
-
-      this.usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
-      this.ehAdministrador = this.usuarioAutenticado?.tipo == 2; // explicação abaixo do uso abaixo operador de encadeamento opcional.
-
-      if(!this.ehAdministrador){
-        this.opcaoCadastro = false;
-      }
-
-
-    } else {
-      this.router.navigate(['/login']);
-    }
-
+    this.identificarTipoDeUsuario();
   }
 
   public editarPerfilDeUsuario(pessoaSelecionada: Pessoa): void{
     this.router.navigate(['/pessoa/cadastro/', pessoaSelecionada.id]);
   }
 
-  logout(){
+  sair(){
     localStorage.removeItem('usuarioAutenticado');
     this.router.navigate(['/login']);
+  }
+
+  public identificarTipoDeUsuario(): void{
+    let usuarioNoStorage = localStorage.getItem('usuarioAutenticado');
+    if (usuarioNoStorage) {
+        this.usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
+        this.ehAdministrador = this.usuarioAutenticado?.tipo == this.ADMINISTRADOR;
+        this.ehUsuario = this.usuarioAutenticado?.tipo == this.USUARIO;
+     }
+     if(!this.ehAdministrador && !this.ehUsuario){
+      this.opcaoCadastro = true;
+     }
   }
 
 }

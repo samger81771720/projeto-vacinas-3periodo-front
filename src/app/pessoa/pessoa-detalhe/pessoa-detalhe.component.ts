@@ -22,6 +22,7 @@ export class PessoaDetalheComponent implements OnInit{
   private readonly USUARIO_NAO_AUTENTICADO: number = 1;
   private readonly USUARIO: number = 1;
   private readonly ADMINISTRADOR: number = 2;
+  public ehAdministrador: boolean = false;
 
   /* Observe no import { Endereco, CEPError } from "@brunoc/ngx-viacep"
   que essa classe Endereco pertence a outra interface */
@@ -80,6 +81,7 @@ export class PessoaDetalheComponent implements OnInit{
         Swal.fire(
           this.pessoa.nome + ' você foi cadastrado(a) com sucesso no sistema!','', 'success'
         );
+        this.pessoa = new Pessoa();
         // "this.definirRotaParaTipoDeUsuario()" é necessário caso seja o primeiro cadastro de usuário no sistema
         this.definirRotaParaTipoDeUsuario();
       },
@@ -159,8 +161,6 @@ export class PessoaDetalheComponent implements OnInit{
         Swal.fire(this.pessoa.nome
           + ' houve um erro ao tentar atualizar o seu cadastro no sistema: '
           + erro.error.mensagem, 'error' + ' Tente novamente.');
-          // Não redireciona para "pessoa/listagem" e nem para "this.ngOnInit();"
-          // this.router.navigate(['pessoa/listagem']);
           this.ngOnInit();
       }
     );
@@ -273,26 +273,27 @@ export class PessoaDetalheComponent implements OnInit{
     }
   }
 
-  public definirRotaParaTipoDeUsuario(): void {
-
+  public identificarAdministrador(): boolean{
     let usuarioAutenticado: Pessoa;
-    let ehAdministrador: boolean = false;
     let usuarioNoStorage = localStorage.getItem('usuarioAutenticado');
-
     if (usuarioNoStorage) {
-
         usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
-        ehAdministrador = usuarioAutenticado?.tipo == 2;
-
-        if (ehAdministrador) {
-          this.router.navigate(['login/home']);
-        } else {
-          this.router.navigate(['login']);
-        }
-    }
+        this.ehAdministrador = usuarioAutenticado?.tipo == this.ADMINISTRADOR;
+     }
+     return this.ehAdministrador;
   }
 
+  public definirRotaParaTipoDeUsuario(): void {
+    if (this.identificarAdministrador()) {
+      this.router.navigate(['login/home']);
+    } else {
+      this.router.navigate(['login']);
+    }
+  }
+  
 }
+
+
 
 
 

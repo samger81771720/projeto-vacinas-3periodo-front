@@ -77,7 +77,7 @@ export class PessoaListagemComponent implements OnInit{
   }
 
   public voltar(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(['/home']);
   }
 
   public limpar(){

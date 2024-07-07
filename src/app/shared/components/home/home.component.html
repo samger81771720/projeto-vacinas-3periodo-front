@@ -3,14 +3,14 @@
       <a class="navbar-brand titulo-do-sistema" href="#">ONDE TEM VACINA?</a>
       <div class="opcoes-do-menu">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="!opcaoCadastro">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle titulo" href="#" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     Usuário
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item func" *ngIf="opcaoCadastro" href="pessoa/cadastro">CADASTRO DE USUÁRIO</a></li>
+                  <li><a class="dropdown-item func" *ngIf="ehAdministrador" href="pessoa/cadastro">CADASTRO DE USUÁRIO</a></li>
                   <li><a class="dropdown-item func" *ngIf="!ehAdministrador" href="pessoa/cadastro" (click)="editarPerfilDeUsuario(usuarioAutenticado)">EDITAR PERFIL DE USUÁRIO</a></li>
                   <li><a class="dropdown-item func" *ngIf="ehAdministrador" href="pessoa/listagem">LISTAGEM DE USUÁRIOS</a></li>
                 </ul>
@@ -45,7 +45,14 @@
               </ul>
             </li>
             <li class="nav-item">
-                <a class="nav-link titulo about icone-sair" (click)="logout()">Sair</a>
+              <a class="nav-link titulo about icone-sair" (click)="sair()">Sair</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item frase" *ngIf="opcaoCadastro">
+              "Faça o seu cadastro abaixo ou
+              <a class = "clique-sair classe-para-cor" (click)="sair()">clique aqui</a>
+              para voltar"
             </li>
           </ul>
       </div>
@@ -54,3 +61,5 @@
 </nav>
 <div class="fundo-imagem"></div>
 <app-rodape></app-rodape>
+
+
