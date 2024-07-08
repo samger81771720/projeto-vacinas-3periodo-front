@@ -3,8 +3,6 @@ import { Pessoa } from '../../shared/model/pessoa';
 import { PessoaService } from '../../shared/service/pessoa.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
-
-
 import { CEPErrorCode, NgxViacepService } from "@brunoc/ngx-viacep";
 import { Endereco, CEPError } from "@brunoc/ngx-viacep";
 import { EMPTY, catchError } from 'rxjs';
@@ -24,6 +22,7 @@ export class PessoaDetalheComponent implements OnInit{
   private readonly ADMINISTRADOR: number = 2;
   public ehAdministrador: boolean = false;
   public ehUsuario: boolean = false;
+  public usuarioAutenticado: Pessoa = new Pessoa();
 
   /* Observe no import { Endereco, CEPError } from "@brunoc/ngx-viacep"
   que essa classe Endereco pertence a outra interface */
@@ -39,24 +38,22 @@ export class PessoaDetalheComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
-    this.verificarUsuarioComumLogado();
-
-    if(this.ehUsuario){
-      Swal.fire('Você não tem permissão para realizar outro cadastro. Você somente pode editar os seus dados pessoas.', '', 'warning');
-      this.router.navigate(['/login/home']);
-    }
-
-    this.route.params.subscribe(
-      (params) =>{
-        this.idPessoa = params['idPessoa'];
-        if(this.idPessoa) {
-          this.consultarPessoaPorId();
+    this.verificarTipoUsuarioLogado();
+    if(this.ehAdministrador){
+      this.route.params.subscribe(
+        (params) =>{
+          this.idPessoa = params['idPessoa'];
+          if(this.idPessoa) {
+            this.consultarPessoaPorId();
+          }
         }
-      }
-    )
+      )
+    }
+    if(this.ehUsuario){
+      this.idPessoa = this.usuarioAutenticado.id;
+      this.consultarPessoaPorId();
+    }
   }
-
 
   public consultarPessoaPorId(): void{
     this.pessoaService.consultarPorId(this.idPessoa).subscribe(
@@ -280,28 +277,17 @@ export class PessoaDetalheComponent implements OnInit{
     }
   }
 
-  public identificarAdministrador(): boolean{
-    let usuarioAutenticado: Pessoa;
+  public verificarTipoUsuarioLogado(): void{
     let usuarioNoStorage = localStorage.getItem('usuarioAutenticado');
     if (usuarioNoStorage) {
-        usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
-        this.ehAdministrador = usuarioAutenticado?.tipo == this.ADMINISTRADOR;
+        this.usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
+        this.ehUsuario = this.usuarioAutenticado?.tipo == this.USUARIO;
+        this.ehAdministrador = this.usuarioAutenticado?.tipo == this.ADMINISTRADOR;
      }
-     return this.ehAdministrador;
-  }
-
-  public verificarUsuarioComumLogado(): boolean{
-    let usuarioAutenticado: Pessoa;
-    let usuarioNoStorage = localStorage.getItem('usuarioAutenticado');
-    if (usuarioNoStorage) {
-        usuarioAutenticado = JSON.parse(usuarioNoStorage) as Pessoa;
-        this.ehUsuario = usuarioAutenticado?.tipo == this.USUARIO;
-     }
-     return this.ehUsuario;
   }
 
    public definirRotaParaTipoDeUsuario(): void {
-    if (this.identificarAdministrador()) {
+    if (this.ehAdministrador) {
       this.router.navigate(['login/home']);
     } else {
       this.router.navigate(['login']);
