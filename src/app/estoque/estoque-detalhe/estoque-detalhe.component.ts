@@ -41,7 +41,7 @@ export class EstoqueDetalheComponent {
     this.validacaoDeAcesso();
     if(!this.ehUsuario && !this.ehAdministrador){
       this.router.navigate(['login']);
-        Swal.fire('Você não é um usuário cadastrado no sistema e também não tem permissão para acessar essa página.', '', 'error');
+      Swal.fire('Você não é um usuário cadastrado no sistema ou não está logado. Por isso não tem permissão para acessar essa página.', '', 'error');
     }
     if(this.ehAdministrador){
       this.consultarTodasUnidades();

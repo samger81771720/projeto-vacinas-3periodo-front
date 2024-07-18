@@ -27,7 +27,8 @@ export class Pessoa{
           [(ngModel)]="pessoa.contatoDaPessoa.telefone"
 
     "Dentro do corpo do método construtor da classe para que os objetos Endereco e
-    Contato possam ser lidos quando o objeto Pessoa for instanciado"
+    Contato possam ser lidos quando o objeto Pessoa for instanciado, ou seja,
+    inicializar os objetos Endereco e Contato quando o objeto Pessoa for inicializado."
 
     */
 
