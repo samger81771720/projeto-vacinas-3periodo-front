@@ -23,6 +23,7 @@ export class PessoaDetalheComponent implements OnInit{
   public ehAdministrador: boolean = false;
   public ehUsuario: boolean = false;
   public usuarioAutenticado: Pessoa = new Pessoa();
+  public AllowAdmOption: boolean = true;
 
   /* Observe no import { Endereco, CEPError } from "@brunoc/ngx-viacep"
   que essa classe Endereco pertence a outra interface */
@@ -39,19 +40,13 @@ export class PessoaDetalheComponent implements OnInit{
 
   ngOnInit(): void {
     this.verificarTipoUsuarioLogado();
-    if(this.ehAdministrador){
-      this.route.params.subscribe(
-        (params) =>{
-          this.idPessoa = params['idPessoa'];
-          if(this.idPessoa) {
-            this.consultarPessoaPorId();
-          }
-        }
-      )
-    }
-    if(this.ehUsuario){
+    if(this.ehUsuario || this.ehAdministrador){
       this.idPessoa = this.usuarioAutenticado.id;
       this.consultarPessoaPorId();
+    }
+    if(!this.ehAdministrador){
+      this.AllowAdmOption = false;
+      this.pessoa.tipo = this.USUARIO;
     }
   }
 

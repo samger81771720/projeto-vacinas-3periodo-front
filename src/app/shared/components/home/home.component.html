@@ -5,34 +5,39 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="!opcaoCadastro">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle titulo" href="#" role="button"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    Usuário
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item func" *ngIf="ehAdministrador" href="pessoa/cadastro">CADASTRO DE USUÁRIO</a></li>
-                  <li><a class="dropdown-item func" *ngIf="!ehAdministrador" href="pessoa/cadastro" (click)="editarPerfilDeUsuario()">EDITAR PERFIL DE USUÁRIO</a></li>
-                  <li><a class="dropdown-item func" *ngIf="ehAdministrador" href="pessoa/listagem">LISTAGEM DE USUÁRIOS</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle titulo" href="#" role="button"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    Onde Encontrar Vacinas
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item func" href="/vacina/listagem">ENCONTRE AQUI A SUA VACINA</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle titulo" href="#" role="button"
                   data-bs-toggle="dropdown" aria-expanded="false">
-                  Central de Aplicações
+                  Usuário
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item func" *ngIf="ehAdministrador" href="/aplicacao/cadastro">CADASTRAR APLICAÇÃO</a></li>
-                <li><a class="dropdown-item func" href="/aplicacao/listagem">CARTEIRINHA DE VACINAÇÃO VIRTUAL</a></li>
+                <li><a class="dropdown-item func" *ngIf="ehAdministrador" href="pessoa/cadastro">CADASTRO DE USUÁRIO</a></li>
+                <li>
+                  <a class="dropdown-item func"  href="pessoa/cadastro" (click)="editarPerfilDeUsuario()">
+                    <span *ngIf="!ehAdministrador">EDITAR PERFIL DE USUÁRIO</span>
+                    <span *ngIf="ehAdministrador">EDITAR PERFIL DO ADMINISTRADOR</span>
+                  </a>
+                </li>
+                <li><a class="dropdown-item func" *ngIf="ehAdministrador" href="pessoa/listagem">LISTAGEM DE USUÁRIOS</a></li>
               </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle titulo" href="#" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Onde Encontrar Vacinas
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item func" href="/vacina/listagem">ENCONTRE AQUI A SUA VACINA</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle titulo" href="#" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+                  Central de Aplicações
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item func" *ngIf="ehAdministrador" href="/aplicacao/cadastro">CADASTRAR APLICAÇÃO</a></li>
+              <li><a class="dropdown-item func" href="/aplicacao/listagem">CARTEIRINHA DE VACINAÇÃO VIRTUAL</a></li>
+            </ul>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle titulo" *ngIf="ehAdministrador" href="#" role="button"

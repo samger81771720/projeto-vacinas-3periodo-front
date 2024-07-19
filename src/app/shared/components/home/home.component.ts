@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit{
   }
 
   public editarPerfilDeUsuario(): void{
-    this.router.navigate(['/pessoa/cadastro/'+ this.usuarioAutenticado.id]);
+    this.router.navigate(['/pessoa/cadastro/']);
   }
 
   sair(){

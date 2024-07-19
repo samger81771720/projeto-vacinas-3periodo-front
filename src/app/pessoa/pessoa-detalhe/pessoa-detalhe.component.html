@@ -33,7 +33,7 @@
           <select class="form-control" name="tipoPessoa" id="tipoPessoa"
                   [(ngModel)]="pessoa.tipo" required>
             <option value="1">Usuário</option>
-            <option value="2">Administrador</option>
+            <option *ngIf="AllowAdmOption" value="2">Administrador</option>
           </select>
         </div>
       </div>
