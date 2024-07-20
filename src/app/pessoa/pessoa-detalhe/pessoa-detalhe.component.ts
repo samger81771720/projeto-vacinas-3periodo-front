@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Pessoa } from '../../shared/model/pessoa';
 import { PessoaService } from '../../shared/service/pessoa.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { CEPErrorCode, NgxViacepService } from "@brunoc/ngx-viacep";
 import { Endereco, CEPError } from "@brunoc/ngx-viacep";
 import { EMPTY, catchError } from 'rxjs';
+import { CadastroService } from '../../shared/service/cadastro.service';
+import { PessoaDetalheService } from '../../shared/service/pessoa.detalhe.service';
+import { Subscription } from 'rxjs';
+
 
 
 @Component({
@@ -13,40 +17,70 @@ import { EMPTY, catchError } from 'rxjs';
   templateUrl: './pessoa-detalhe.component.html',
   styleUrl: './pessoa-detalhe.component.scss'
 })
-export class PessoaDetalheComponent implements OnInit{
+export class PessoaDetalheComponent implements OnInit, OnDestroy{
 
   public idPessoa: number;
   public pessoa: Pessoa = new Pessoa();
-  private readonly USUARIO_NAO_AUTENTICADO: number = 1;
   private readonly USUARIO: number = 1;
   private readonly ADMINISTRADOR: number = 2;
   public ehAdministrador: boolean = false;
   public ehUsuario: boolean = false;
   public usuarioAutenticado: Pessoa = new Pessoa();
-  public AllowAdmOption: boolean = true;
+  public permitirOpcaoAdministrador: boolean = true;
 
   /* Observe no import { Endereco, CEPError } from "@brunoc/ngx-viacep"
+import { LoginComponent } from '../../login/login/login.component';
+import { SharedModule } from '../../shared/shared.module';
   que essa classe Endereco pertence a outra interface */
   public listaDeEnderecos: Endereco[] = [];
+  private subscription: Subscription;
 
   constructor(
     private pessoaService : PessoaService,
     private router: Router,
-    private route: ActivatedRoute,
-    private viacep: NgxViacepService
+    private viacep: NgxViacepService,
+    /*
+    Como o componente home está sendo utilizado dentro de um módulo compartilhado(Shared)
+    foi então necessário criar uma classe service "CadastroService" para pode usar um "Serviço
+    para Compartilhar Um Estado", pois não foi possível fazer isso diretamente via HomeComponent.
+    */
+    private cadastroService: CadastroService,
+
+    private pessoaDetalheService: PessoaDetalheService
+
   ){
 
   }
 
   ngOnInit(): void {
+
+    this.subscription = this.pessoaDetalheService.executarNgOnInit$.subscribe(
+      () => {
+      this.ngOnInit();
+    });
+
     this.verificarTipoUsuarioLogado();
-    if(this.ehUsuario || this.ehAdministrador){
+
+    if(this.cadastroService.confirmarCadastro && this.ehAdministrador){
+      this.pessoa = new Pessoa();
+    }
+
+    if(!this.cadastroService.confirmarCadastro && (this.ehAdministrador || this.ehUsuario)){
       this.idPessoa = this.usuarioAutenticado.id;
       this.consultarPessoaPorId();
     }
+
     if(!this.ehAdministrador){
-      this.AllowAdmOption = false;
+      this.permitirOpcaoAdministrador = false;
       this.pessoa.tipo = this.USUARIO;
+    }
+
+  }
+
+  ngOnDestroy(): void {
+    // Evitar vazamentos de memória ao desinscrever
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 

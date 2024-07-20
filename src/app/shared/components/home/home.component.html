@@ -1,18 +1,18 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-      <a class="navbar-brand titulo-do-sistema" href="#">ONDE TEM VACINA?</a>
+      <a class="navbar-brand titulo-do-sistema" href="/login/home">ONDE TEM VACINA?</a>
       <div class="opcoes-do-menu">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="!opcaoCadastro">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="!opcaoCadastroComum">
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle titulo" href="#" role="button"
                   data-bs-toggle="dropdown" aria-expanded="false">
                   Usuário
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item func" *ngIf="ehAdministrador" href="pessoa/cadastro">CADASTRO DE USUÁRIO</a></li>
+                <li><a class="dropdown-item func" *ngIf="ehAdministrador"(click)="cadastrarUsuarioComoAdministrador()">CADASTRO DE USUÁRIO</a></li>
                 <li>
-                  <a class="dropdown-item func"  href="pessoa/cadastro" (click)="editarPerfilDeUsuario()">
+                  <a class="dropdown-item func" (click)="editarPerfilDeUsuario()">
                     <span *ngIf="!ehAdministrador">EDITAR PERFIL DE USUÁRIO</span>
                     <span *ngIf="ehAdministrador">EDITAR PERFIL DO ADMINISTRADOR</span>
                   </a>
@@ -54,7 +54,7 @@
             </li>
           </ul>
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item frase" *ngIf="opcaoCadastro">
+            <li class="nav-item frase" *ngIf="opcaoCadastroComum">
               "Faça o seu cadastro abaixo ou
               <a class = "clique-sair classe-para-cor" (click)="sair()">clique aqui</a>
               para voltar"

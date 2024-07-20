@@ -1,3 +1,4 @@
+import { CadastroService } from './../shared/service/cadastro.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PessoaRoutingModule } from './pessoa-routing.module';
@@ -8,10 +9,11 @@ import { NgxViacepModule } from "@brunoc/ngx-viacep";
 import { SharedModule } from '../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 
+
 @NgModule({
   declarations: [
     PessoaDetalheComponent,
-    PessoaListagemComponent
+    PessoaListagemComponent,
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     NgxViacepModule,
     SharedModule,
-    HttpClientModule
-  ]
+    HttpClientModule,
+   ]
 })
 export class PessoaModule { }
