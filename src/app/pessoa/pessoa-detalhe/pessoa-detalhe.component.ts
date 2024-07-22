@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Pessoa } from '../../shared/model/pessoa';
 import { PessoaService } from '../../shared/service/pessoa.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { CEPErrorCode, NgxViacepService } from "@brunoc/ngx-viacep";
 import { Endereco, CEPError } from "@brunoc/ngx-viacep";
@@ -45,14 +45,22 @@ import { SharedModule } from '../../shared/shared.module';
     para Compartilhar Um Estado", pois não foi possível fazer isso diretamente via HomeComponent.
     */
     private cadastroService: CadastroService,
-
-    private pessoaDetalheService: PessoaDetalheService
-
+    private pessoaDetalheService: PessoaDetalheService,
+    private route: ActivatedRoute
   ){
 
   }
 
   ngOnInit(): void {
+
+    this.route.params.subscribe(
+      (params) =>{
+        this.idPessoa = params['idPessoa'];
+        if(this.idPessoa) {
+          this.consultarPessoaPorId();
+        }
+      }
+    )
 
     this.subscription = this.pessoaDetalheService.executarNgOnInit$.subscribe(
       () => {
