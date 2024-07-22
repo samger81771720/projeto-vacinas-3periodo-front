@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Pessoa } from '../../model/pessoa';
 import { CadastroService } from '../../service/cadastro.service';
 import { PessoaDetalheService } from '../../service/pessoa.detalhe.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home',
@@ -57,9 +58,10 @@ export class HomeComponent implements OnInit{
      }
      if(!this.ehAdministrador && !this.ehUsuario){
       this.opcaoCadastroComum = true;
+      this.router.navigate(['login']);
+      Swal.fire('Você não é um usuário cadastrado no sistema ou não está logado, por isso não tem permissão para acessar essa página.', '', 'error');
      }
-  }
-
+    }
 }
 
 /*
