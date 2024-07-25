@@ -5,6 +5,14 @@ import { EstoqueService } from '../../shared/service/estoque.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { Pessoa } from '../../shared/model/pessoa';
+import { EstoqueSeletor } from '../../shared/model/seletor/estoque.seletor';
+import { Vacina } from '../../shared/model/vacina';
+import { VacinaService } from '../../shared/service/vacina.service';
+import { Unidade } from '../../shared/model/unidade';
+import { Endereco } from '../../shared/model/endereco';
+import { Fabricante } from '../../shared/model/fabricante';
+import { UnidadeService } from '../../shared/service/unidade.service';
+import { FabricanteService } from '../../shared/service/fabricante.service';
 
 @Component({
   selector: 'app-estoque-listagem',
@@ -14,51 +22,73 @@ import { Pessoa } from '../../shared/model/pessoa';
 export class EstoqueListagemComponent implements OnInit{
 
   public estoques : Array<Estoque> = new Array();
+  public listaDeVacinas : Array<Vacina> = new Array();
+  public listaDeUnidades : Array<Unidade> = new Array();
+  public listaDeCidades : Array<Endereco> = new Array();
+  public listaDeFabricantes : Array<Fabricante> = new Array();
   public estoque: Estoque | null = null;
+  public estoqueSeletor: EstoqueSeletor = new EstoqueSeletor();
   public mostrarTabela: boolean = true;
-  public usuarioAutenticado: Pessoa;
+  public usuarioAutenticado: Pessoa = new Pessoa();
   public ehAdministrador: boolean = false;
   public ehUsuario: boolean = false;
   private readonly USUARIO: number = 1;
   private readonly ADMINISTRADOR: number = 2;
 
+
   constructor(
-    private estoqueService : EstoqueService,
+    private vacinaService : VacinaService,
+    private unidadeService : UnidadeService,
+    private fabricanteService : FabricanteService,
     private router: Router
   ){
 
   }
 
   ngOnInit(): void{
+
     this.validacaoDeAcesso();
+
     if(!this.ehUsuario && !this.ehAdministrador){
       this.router.navigate(['login']);
       Swal.fire('Você não é um usuário cadastrado no sistema ou não está logado. '
               + 'Por isso não tem permissão para acessar essa página.', '', 'error');
     }
-    if(this.ehAdministrador){
-      this.consultarTodosEstoques();
-      this.mostrarTabela = false;
-    }
+
+    this.consultarListaDeVacinas();
+    this.consultarListaDeUnidades();
+    this.consultarListaDeFabricantes();
   }
 
-  private consultarTodosEstoques(): void{
-    this.estoqueService.consultarTodos().subscribe(
-      (resultado) => {
-        this.estoques = resultado;
-      },
-      (erro) => {
-        Swal.fire('Erro ao consultar a lista de estoques','','error');
-      }
+  private consultarListaDeVacinas(): void{
+    this.vacinaService.consultarTodas().subscribe(
+      resultado => this.listaDeVacinas = resultado,
+      () => Swal.fire('Erro ao consultar a lista de vacinas','','error')
     );
   }
+
+  private consultarListaDeUnidades(): void{
+    this.unidadeService.consultarTodas().subscribe(
+      resultado => this.listaDeUnidades = resultado,
+      () => Swal.fire('Erro ao consultar a lista de unidades','','error')
+    );
+  }
+
+  private consultarListaDeFabricantes(): void{
+    this.fabricanteService.consultarTodos().subscribe(
+      resultado => this.listaDeFabricantes = resultado,
+      () => Swal.fire('Erro ao consultar a lista de fabricantes de vacinas','','error')
+    );
+  }
+
+
 
   public editar(estoque: Estoque): void{
     this.router.navigate(['/estoque/cadastrar/', estoque.unidade.id, estoque.vacina.id]);
   }
 
   public excluir(estoqueSelecionado: Estoque): void{
-    Swal.fire({
+   /* Swal.fire({
       title: 'Sr. gestor(a) da unidade: Deseja realmente excluir o estoque?',
       text: 'Essa ação não poderá ser desfeita!',
       icon: 'warning',
@@ -78,7 +108,7 @@ export class EstoqueListagemComponent implements OnInit{
           }
         );
       }
-    });
+    });*/
   }
 
   public voltar(): void {

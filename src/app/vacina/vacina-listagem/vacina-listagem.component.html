@@ -10,10 +10,12 @@
         <div class="row linha1">
           <div class="col-md-3 form-group">
             <label for="vacina" class="form-label titulo">Vacina:</label>
+
             <select class="form-control" name="vacina" [(ngModel)]="vacinaSeletor.nomeVacina">
               <option value="" disabled selected>Clique numa vacina para selecioná-la</option>
               <option *ngFor="let v of listaDeVacinas" [ngValue]="v.nome"> {{ v.nome }} </option>
             </select>
+
           </div>
           <div class="col-md-3 form-group">
             <label for="categoria" class="form-label titulo">Categoria:</label>

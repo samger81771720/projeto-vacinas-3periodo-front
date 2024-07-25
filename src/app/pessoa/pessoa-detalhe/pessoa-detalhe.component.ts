@@ -60,7 +60,7 @@ import { SharedModule } from '../../shared/shared.module';
           this.consultarPessoaPorId();
         }
       }
-    )
+    );
 
     this.subscription = this.pessoaDetalheService.executarNgOnInit$.subscribe(
       () => {

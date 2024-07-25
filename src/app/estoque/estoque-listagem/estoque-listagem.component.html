@@ -1,3 +1,5 @@
+
+<!--
 <app-home></app-home>
 <br><br>
 <div class="container">
@@ -9,7 +11,7 @@
       <div class="card-body">
         <div class="row justify-content-center mt-2">
           <div class="col-md-4 form-group">
-            <label for="estoqueUnidade" class="form-label titulo">Selecione o estoque (clique abaixo):</label><!-- COMENTÁRIO 2-->
+            <label for="estoqueUnidade" class="form-label titulo">Selecione o estoque (clique abaixo):</label>
             <select class="form-control" name="estoqueUnidade" [(ngModel)]="estoque" (change)="selecionarEstoque()">
               <option value="" disabled selected>SELECIONE O ESTOQUE DESEJADO: </option>
               <option *ngFor="let e of estoques" [ngValue]="e">{{ e.unidade.nome }} ({{ e.vacina.nome }})</option>
@@ -68,6 +70,7 @@
   </table>
 </div>
 <br><br><br>
+-->
 
 <!--
 COMENTÁRIO 1:
@@ -110,3 +113,137 @@ No seu caso, (change)="selecionarEstoque()" significa que,
  sempre que a opção selecionada no elemento <select> mudar,
    o método selecionarEstoque() é chamado.
 -->
+
+<app-home></app-home>
+<br><br>
+<div class="container">
+  <form>
+    <div class="card">
+
+      <div class="card-header text-white bg-primary">
+        <h4>Busca de Vacinas Com Filtros(Admin)</h4>
+      </div>
+
+      <div class="card-body">
+
+        <div class="row linha1">
+
+          <div class="col-md-3 form-group">
+
+            <label for="nomeDaVacina" class="form-label titulo">Vacina:</label>
+            <select class="form-control" name="nomeDaVacina" [(ngModel)]="estoqueSeletor.vacina">
+              <option value="" disabled selected>Clique numa vacina para selecioná-la</option>
+              <option *ngFor="let v of listaDeVacinas" [ngValue]="v.nome"> {{ v.nome }} </option>
+            </select>
+
+          </div>
+
+          <div class="col-md-3 form-group">
+            <label for="nomeDaUnidade" class="form-label titulo">Unidade:</label>
+            <select class="form-control" name="nomeDaUnidade" [(ngModel)]="estoqueSeletor.unidade">
+              <option value="" disabled selected>Clique numa unidade para selecioná-la</option>
+              <option *ngFor="let u of listaDeUnidades" [ngValue]="u.nome">{{ u.nome }}</option>
+            </select>
+          </div>
+
+
+          <div class="col-md-3 form-group">
+            <label for="nomeDaCidade" class="form-label titulo">Cidade:</label>
+            <input type="text" class="form-control" id ="nomeDaCidade" name="nomeDaCidade"
+            [(ngModel)] = "estoqueSeletor.cidade"
+            >
+          </div>
+
+
+          <div class="col-md-3 form-group">
+            <label for="nomeDoFabricante" class="form-label titulo">Fabricante:</label>
+            <select class="form-control" name="nomeDoFabricante" [(ngModel)]="estoqueSeletor.fabricante">
+              <option value="" disabled selected>Clique num fabricante para selecioná-lo</option>
+              <option *ngFor="let f of listaDeFabricantes" [ngValue]="f.nome">{{ f.nome }}</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="row linha1">
+
+          <div class="col-md-4 form-group">
+            <label for="opcaoTemEstoque" class="form-label titulo">Opção em Estoque:</label>
+            <select class="form-control" name="opcaoTemEstoque" [(ngModel)]="estoqueSeletor.temEstoque">
+              <option value="" disabled selected>Selecione uma opção:</option>
+              <option [value] = "true"> Unidades com vacinas em estoque </option>
+              <option [value] = "false"> Unidades sem vacinas em estoque </option>
+              <option [value] = "null"> Ambas opções anteriores </option>
+            </select>
+          </div>
+
+          <div class="col-md-3 form-group">
+            <label for="ordenacaoPorUnidade" class="form-label titulo">Ordenar Por Unidade:</label>
+            <select class="form-control" name="ordenacaoPorUnidade" [(ngModel)]="estoqueSeletor.temOrdenacaoPorUnidade">
+              <option value="" disabled selected>Selecione uma opção:</option>
+              <option [value] = "true">Sim </option>
+              <option [value] = "null"> Não </option>
+            </select>
+          </div>
+
+
+
+        </div>
+
+
+        <div class="row mb-3 botoes">
+          <div class="form-group col-md-2">
+            <button type="submit" class="form-control btn botao-voltar" (click)="voltar()">
+                <i class="bi bi-arrow-left"></i> Voltar
+            </button>
+          </div>
+          <div class="col-md-3">
+            <button type="button" class="form-control btn btn-secondary botao-limpar" (click)="limpar()">
+              <i class="bi bi-x-circle"></i> Limpar
+            </button>
+          </div>
+          <div class="col-md-3">
+              <button type="submit" class="btn botao-consultarTodos w-100">Pesquisar Sem Filtros</button>
+          </div>
+          <div class="col-md-4">
+            <button type="submit" class="btn btn-primary w-100 filtros">"Consultar Com Filtros"</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <br>
+  <h2 class="">Estoque</h2>
+  <br><br>
+  <table *ngIf="mostrarTabela" class="table table-hover table-striped">
+    <thead>
+      <th>Unidade</th>
+      <th>Vacina em Estoque</th>
+      <th>Quantidade</th>
+      <th>Data do Lote</th>
+      <th>Validade</th>
+      <th>Ações</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let estoque of definirTipoDaExibicao()">
+        <td>{{ estoque.unidade.nome }}</td>
+        <td>{{ estoque.vacina.nome }}</td>
+        <td>{{ estoque.quantidade }}</td>
+        <td>{{ estoque.dataLote | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ estoque.validade | date: 'dd/MM/yyyy' }}</td>
+        <div class="row">
+          <div class="col-md-4">
+            <button class="btn btn-primary btn-block" (click)="editar(estoque)">
+              <i class="bi bi-x"></i>Editar</button>
+          </div>
+          <div class="col-md-4">
+            <button class="btn btn-danger btn-block"(click)="excluir(estoque)">
+              <i class="bi bi-x"></i>Excluir</button>
+          </div>
+        </div>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<br><br><br>
