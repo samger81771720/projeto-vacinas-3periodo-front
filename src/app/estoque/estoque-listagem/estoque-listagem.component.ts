@@ -13,6 +13,7 @@ import { Endereco } from '../../shared/model/endereco';
 import { Fabricante } from '../../shared/model/fabricante';
 import { UnidadeService } from '../../shared/service/unidade.service';
 import { FabricanteService } from '../../shared/service/fabricante.service';
+import { EstoqueDTO } from '../../shared/model/dto/estoque.DTO';
 
 @Component({
   selector: 'app-estoque-listagem',
@@ -26,8 +27,10 @@ export class EstoqueListagemComponent implements OnInit{
   public listaDeUnidades : Array<Unidade> = new Array();
   public listaDeCidades : Array<Endereco> = new Array();
   public listaDeFabricantes : Array<Fabricante> = new Array();
-  public estoque: Estoque | null = null;
+  //public estoque: Estoque | null = null;
+  public estoqueDTO: EstoqueDTO | null = null;
   public estoqueSeletor: EstoqueSeletor = new EstoqueSeletor();
+  public listaDeEstoquesDTO : Array<EstoqueDTO> = new Array();
   public mostrarTabela: boolean = true;
   public usuarioAutenticado: Pessoa = new Pessoa();
   public ehAdministrador: boolean = false;
@@ -37,6 +40,7 @@ export class EstoqueListagemComponent implements OnInit{
 
 
   constructor(
+    private estoqueService : EstoqueService,
     private vacinaService : VacinaService,
     private unidadeService : UnidadeService,
     private fabricanteService : FabricanteService,
@@ -81,8 +85,6 @@ export class EstoqueListagemComponent implements OnInit{
     );
   }
 
-
-
   public editar(estoque: Estoque): void{
     this.router.navigate(['/estoque/cadastrar/', estoque.unidade.id, estoque.vacina.id]);
   }
@@ -111,29 +113,34 @@ export class EstoqueListagemComponent implements OnInit{
     });*/
   }
 
-  public voltar(): void {
-    this.router.navigate(['/login/home']);
-  }
 
-  public limpar(): void {
-    this.mostrarTabela = false;
-    this.estoque = null;
-  }
+    public pesquisarComFiltros(): void{
+      this.estoqueService.consultarComFiltrosComoAdmin(this.estoqueSeletor).subscribe(
+        (resultado) => {
+          if(resultado.length > 0){
+            this.listaDeEstoquesDTO = resultado;
+            this.mostrarTabela = true;
+          } else{
+            Swal.fire('"Infelizmente não existe nenhum resultado disponível de acordo com a sua busca. Tente outras opções"');
+          }
+        },
+        (erro) => {
+          Swal.fire('Erro ao buscar todas os estoques com o seletor.','','error');
+        }
+      );
+    }
 
-  public consultarTodos(): void {
-    this.estoque = null;
-    this.mostrarTabela = true;
-  }
+    public limpar(): void {
+      this.mostrarTabela = false;
+      this.estoqueSeletor = new EstoqueSeletor();
+    }
 
-  public selecionarEstoque(): void {
-    this.mostrarTabela = true;
-  }
 
-  definirTipoDaExibicao(): Estoque[] {
-    if (this.estoque) {
-      return [this.estoque];
+  definirTipoDaExibicao(): EstoqueDTO[] {
+    if (this.estoqueDTO) {
+      return [this.estoqueDTO];
     } else {
-      return this.estoques;
+      return this.listaDeEstoquesDTO;
     }
   }
 

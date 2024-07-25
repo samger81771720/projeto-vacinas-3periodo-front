@@ -4,6 +4,8 @@ import { Estoque } from '../model/estoque';
 import { VacinaSeletor } from '../model/seletor/vacina.seletor';
 import { VacinaDTO } from '../model/dto/vacina.DTO';
 import { Observable, throwError } from 'rxjs';
+import { EstoqueSeletor } from '../model/seletor/estoque.seletor';
+import { EstoqueDTO } from '../model/dto/estoque.DTO';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +39,11 @@ export class EstoqueService {
   public consultarComFiltros(vacinaSeletor: VacinaSeletor): Observable<Array<VacinaDTO>>{
     return this.httpClient.post<Array<VacinaDTO>>(this.API
                                 + '/filtro-Vacinas-EstoqueDaUnidade', vacinaSeletor);
+  }
+
+  public consultarComFiltrosComoAdmin(estoqueSeletor: EstoqueSeletor): Observable<Array<EstoqueDTO>>{
+    return this.httpClient.post<Array<EstoqueDTO>>(this.API
+                                + '/consultarEstoquesComFiltrosComoAdministrador', estoqueSeletor);
   }
 
   public consultarEstoquePorIds(idUnidade: number, idVacina: number): Observable<Estoque>{

@@ -115,6 +115,16 @@ No seu caso, (change)="selecionarEstoque()" significa que,
 -->
 
 <app-home></app-home>
+<pre>{{ estoqueSeletor.vacina | json }}</pre>
+<pre>{{ estoqueSeletor.unidade | json }}</pre>
+<pre>{{ estoqueSeletor.cidade | json }}</pre>
+<pre>{{ estoqueSeletor.fabricante | json }}</pre>
+<pre>{{ estoqueSeletor.temEstoque }}</pre>
+<pre>{{ estoqueSeletor.temOrdenacaoPorUnidade }}</pre>
+<pre>{{ estoqueSeletor.temOrdenacaoPorFabricante }}</pre>
+<pre>{{ estoqueSeletor.temOrdenacaoPorVacina }}</pre>
+<pre>{{ estoqueSeletor.temOrdenacaoPorCidade }}</pre>
+
 <br><br>
 <div class="container">
   <form>
@@ -128,20 +138,18 @@ No seu caso, (change)="selecionarEstoque()" significa que,
 
         <div class="row linha1">
 
-          <div class="col-md-3 form-group">
-
+          <div class="col-md-2 form-group">
             <label for="nomeDaVacina" class="form-label titulo">Vacina:</label>
             <select class="form-control" name="nomeDaVacina" [(ngModel)]="estoqueSeletor.vacina">
-              <option value="" disabled selected>Clique numa vacina para selecioná-la</option>
+              <option value="" disabled selected>Clique para selecionar</option>
               <option *ngFor="let v of listaDeVacinas" [ngValue]="v.nome"> {{ v.nome }} </option>
             </select>
-
           </div>
 
-          <div class="col-md-3 form-group">
+          <div class="col-md-2 form-group">
             <label for="nomeDaUnidade" class="form-label titulo">Unidade:</label>
             <select class="form-control" name="nomeDaUnidade" [(ngModel)]="estoqueSeletor.unidade">
-              <option value="" disabled selected>Clique numa unidade para selecioná-la</option>
+              <option value="" disabled selected>Clique para selecionar</option>
               <option *ngFor="let u of listaDeUnidades" [ngValue]="u.nome">{{ u.nome }}</option>
             </select>
           </div>
@@ -155,20 +163,16 @@ No seu caso, (change)="selecionarEstoque()" significa que,
           </div>
 
 
-          <div class="col-md-3 form-group">
+          <div class="col-md-2 form-group">
             <label for="nomeDoFabricante" class="form-label titulo">Fabricante:</label>
             <select class="form-control" name="nomeDoFabricante" [(ngModel)]="estoqueSeletor.fabricante">
-              <option value="" disabled selected>Clique num fabricante para selecioná-lo</option>
+              <option value="" disabled selected>Clique para selecionar</option>
               <option *ngFor="let f of listaDeFabricantes" [ngValue]="f.nome">{{ f.nome }}</option>
             </select>
           </div>
 
-        </div>
-
-        <div class="row linha1">
-
-          <div class="col-md-4 form-group">
-            <label for="opcaoTemEstoque" class="form-label titulo">Opção em Estoque:</label>
+          <div class="col-md-3 form-group">
+            <label for="opcaoTemEstoque" class="form-label titulo">Possui Estoque:</label>
             <select class="form-control" name="opcaoTemEstoque" [(ngModel)]="estoqueSeletor.temEstoque">
               <option value="" disabled selected>Selecione uma opção:</option>
               <option [value] = "true"> Unidades com vacinas em estoque </option>
@@ -176,6 +180,10 @@ No seu caso, (change)="selecionarEstoque()" significa que,
               <option [value] = "null"> Ambas opções anteriores </option>
             </select>
           </div>
+
+        </div>
+
+        <div class="row">
 
           <div class="col-md-3 form-group">
             <label for="ordenacaoPorUnidade" class="form-label titulo">Ordenar Por Unidade:</label>
@@ -186,14 +194,39 @@ No seu caso, (change)="selecionarEstoque()" significa que,
             </select>
           </div>
 
+          <div class="col-md-3 form-group">
+            <label for="ordenacaoPorVacina" class="form-label titulo">Ordenar Por Vacina:</label>
+            <select class="form-control" name="ordenacaoPorVacina" [(ngModel)]="estoqueSeletor.temOrdenacaoPorVacina">
+              <option value="" disabled selected>Selecione uma opção:</option>
+              <option [value] = "true">Sim </option>
+              <option [value] = "null"> Não </option>
+            </select>
+          </div>
 
+          <div class="col-md-3 form-group">
+            <label for="ordenacaoPorFabricante" class="form-label titulo">Ordenar Por Fabricante:</label>
+            <select class="form-control" name="ordenacaoPorFabricante" [(ngModel)]="estoqueSeletor.temOrdenacaoPorFabricante">
+              <option value="" disabled selected>Selecione uma opção:</option>
+              <option [value] = "true">Sim </option>
+              <option [value] = "null"> Não </option>
+            </select>
+          </div>
+
+          <div class="col-md-3 form-group">
+            <label for="ordenacaoPorCidade" class="form-label titulo">Ordenar Por Cidade:</label>
+            <select class="form-control" name="ordenacaoPorCidade" [(ngModel)]="estoqueSeletor.temOrdenacaoPorCidade">
+              <option value="" disabled selected>Selecione uma opção:</option>
+              <option [value] = "true">Sim </option>
+              <option [value] = "null"> Não </option>
+            </select>
+          </div>
 
         </div>
 
 
         <div class="row mb-3 botoes">
           <div class="form-group col-md-2">
-            <button type="submit" class="form-control btn botao-voltar" (click)="voltar()">
+            <button type="submit" class="form-control btn botao-voltar" >
                 <i class="bi bi-arrow-left"></i> Voltar
             </button>
           </div>
@@ -206,7 +239,7 @@ No seu caso, (change)="selecionarEstoque()" significa que,
               <button type="submit" class="btn botao-consultarTodos w-100">Pesquisar Sem Filtros</button>
           </div>
           <div class="col-md-4">
-            <button type="submit" class="btn btn-primary w-100 filtros">"Consultar Com Filtros"</button>
+            <button type="submit" class="btn btn-primary w-100 filtros" (click)="pesquisarComFiltros()">"Consultar Com Filtros"</button>
           </div>
         </div>
       </div>
@@ -219,22 +252,27 @@ No seu caso, (change)="selecionarEstoque()" significa que,
   <table *ngIf="mostrarTabela" class="table table-hover table-striped">
     <thead>
       <th>Unidade</th>
-      <th>Vacina em Estoque</th>
+      <th>Vacina</th>
+      <th>Fabricante</th>
       <th>Quantidade</th>
       <th>Data do Lote</th>
       <th>Validade</th>
+      <th>Cidade</th>
       <th>Ações</th>
     </thead>
     <tbody>
-      <tr *ngFor="let estoque of definirTipoDaExibicao()">
-        <td>{{ estoque.unidade.nome }}</td>
-        <td>{{ estoque.vacina.nome }}</td>
-        <td>{{ estoque.quantidade }}</td>
-        <td>{{ estoque.dataLote | date: 'dd/MM/yyyy' }}</td>
-        <td>{{ estoque.validade | date: 'dd/MM/yyyy' }}</td>
+      <tr *ngFor="let estoqueDTO of definirTipoDaExibicao()">
+        <td>{{ estoqueDTO.unidade.nome }}</td>
+        <td>{{ estoqueDTO.vacina.nome }}</td>
+        <td>{{ estoqueDTO.fabricante.nome }}</td>
+        <td>{{ estoqueDTO.estoque.quantidade }}</td>
+        <td>{{ estoqueDTO.estoque.dataLote| date: 'dd/MM/yyyy' }}</td>
+        <td>{{ estoqueDTO.estoque.validade| date: 'dd/MM/yyyy' }}</td>
+        <td>{{ estoqueDTO.endereco.localidade }}</td>
+        <!--
         <div class="row">
           <div class="col-md-4">
-            <button class="btn btn-primary btn-block" (click)="editar(estoque)">
+            <button class="btn btn-primary btn-block" (click)="editar(estoqueDTO)">
               <i class="bi bi-x"></i>Editar</button>
           </div>
           <div class="col-md-4">
@@ -242,6 +280,7 @@ No seu caso, (change)="selecionarEstoque()" significa que,
               <i class="bi bi-x"></i>Excluir</button>
           </div>
         </div>
+        -->
       </tr>
     </tbody>
   </table>
