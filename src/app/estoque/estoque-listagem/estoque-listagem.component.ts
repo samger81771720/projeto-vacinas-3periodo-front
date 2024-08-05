@@ -22,15 +22,14 @@ import { EstoqueDTO } from '../../shared/model/dto/estoque.DTO';
 })
 export class EstoqueListagemComponent implements OnInit{
 
-  public estoques : Array<Estoque> = new Array();
+  public listaDeEstoques : Array<Estoque> = new Array();
   public listaDeVacinas : Array<Vacina> = new Array();
   public listaDeUnidades : Array<Unidade> = new Array();
   public listaDeCidades : Array<Endereco> = new Array();
   public listaDeFabricantes : Array<Fabricante> = new Array();
-  //public estoque: Estoque | null = null;
+  public estoque: Estoque | null = null;
   public estoqueDTO: EstoqueDTO | null = null;
   public estoqueSeletor: EstoqueSeletor = new EstoqueSeletor();
-  public listaDeEstoquesDTO : Array<EstoqueDTO> = new Array();
   public mostrarTabela: boolean = true;
   public usuarioAutenticado: Pessoa = new Pessoa();
   public ehAdministrador: boolean = false;
@@ -90,8 +89,9 @@ export class EstoqueListagemComponent implements OnInit{
   }
 
   public excluir(estoqueSelecionado: Estoque): void{
-   /* Swal.fire({
-      title: 'Sr. gestor(a) da unidade: Deseja realmente excluir o estoque?',
+    Swal.fire({
+      title: 'Sr. gestor(a) da unidade: Deseja realmente excluir o estoque da vacina '
+      + estoqueSelecionado.vacina.nome + '?',
       text: 'Essa ação não poderá ser desfeita!',
       icon: 'warning',
       showCancelButton: true,
@@ -103,14 +103,14 @@ export class EstoqueListagemComponent implements OnInit{
           resultado => {
             Swal.fire('Estoque excluído com sucesso!','','success');
             this.estoque = null;
-            this.consultarTodosEstoques();
+            this.pesquisarComFiltros();
           },
           erro => {
             Swal.fire('Erro!', 'Erro ao excluir o estoque selecionado: ' + erro.error.mensagem, 'error');
           }
         );
       }
-    });*/
+    });
   }
 
 
@@ -118,7 +118,7 @@ export class EstoqueListagemComponent implements OnInit{
       this.estoqueService.consultarComFiltrosComoAdmin(this.estoqueSeletor).subscribe(
         (resultado) => {
           if(resultado.length > 0){
-            this.listaDeEstoquesDTO = resultado;
+            this.listaDeEstoques = resultado;
             this.mostrarTabela = true;
           } else{
             Swal.fire('"Infelizmente não existe nenhum resultado disponível de acordo com a sua busca. Tente outras opções"');
@@ -136,11 +136,11 @@ export class EstoqueListagemComponent implements OnInit{
     }
 
 
-  definirTipoDaExibicao(): EstoqueDTO[] {
-    if (this.estoqueDTO) {
-      return [this.estoqueDTO];
+  definirTipoDaExibicao(): Estoque[] {
+    if (this.estoque) {
+      return [this.estoque];
     } else {
-      return this.listaDeEstoquesDTO;
+      return this.listaDeEstoques;
     }
   }
 

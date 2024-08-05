@@ -41,8 +41,8 @@ export class EstoqueService {
                                 + '/filtro-Vacinas-EstoqueDaUnidade', vacinaSeletor);
   }
 
-  public consultarComFiltrosComoAdmin(estoqueSeletor: EstoqueSeletor): Observable<Array<EstoqueDTO>>{
-    return this.httpClient.post<Array<EstoqueDTO>>(this.API
+  public consultarComFiltrosComoAdmin(estoqueSeletor: EstoqueSeletor): Observable<Array<Estoque>>{
+    return this.httpClient.post<Array<Estoque>>(this.API
                                 + '/consultarEstoquesComFiltrosComoAdministrador', estoqueSeletor);
   }
 
